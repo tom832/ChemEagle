@@ -92,7 +92,7 @@ conda activate chemeagle
 ```
 pip install -r requirements.txt
 ```
-3. Download the necessary [models](https://huggingface.co/datasets/CYF200127/ChemEagle/blob/main/) and put in the main path.
+3. Download the necessary [models](https://huggingface.co/datasets/CYF200127/ChemEagle/tree/main) and put in the main path.
 
 4. Set up your API keys in your environment.
 ```
