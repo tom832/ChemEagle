@@ -35,8 +35,8 @@ In this work, we present ChemEagle, a multimodal large language model (MLLM)-bas
 | **Image2Graph**         | Molecular Recognition             | Converts molecular sub-images to graph representations     |
 | **Graph2SMILES**        | Molecular Recognition             | Converts molecular graphs to SMILES strings            |
 | **SMILESReconstructor** | Molecular Recognition             | Reconstructs reactant SMILES from product variants     |
-| **RxnImgParser**        | Reaction Image Parsing            | Segments reaction template images into templates and components |
-| **RxnConInterpreter**   | Reaction Image Parsing            | Assigns semantic roles to extracted condition text     |
+| **RxnImgParser**        | Reaction Image Parsing            | Parsing reaction template images into bounding boxes and components |
+| **RxnConInterpreter**   | Reaction Image Parsing            | Assigns condition roles to extracted condition text     |
 
 
 
