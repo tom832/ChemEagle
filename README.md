@@ -1,4 +1,4 @@
-# ChemEagle
+# ChemEAGLE
 
 
 ## :sparkles: Highlights
