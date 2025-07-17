@@ -21,7 +21,7 @@ In this work, we present ChemEagle, a multimodal large language model (MLLM)-bas
 | **Text-based Table R-group Substitution Agent**     | Extraction          | Substitutes R-groups and reconstructs SMILES from text-based tables  |
 | **Condition Interpretation Agent**                  | Extraction          | Extracts and categorizes reaction conditions (solvent, temp, etc.)  |
 | **Text Extraction Agent**                           | Extraction          | Extracts and aligns reaction info from associated texts             |
-| **Data Structure Agent**                            | Extraction          | Compiles structured output for downstream applications              |
+| **Data Structure Agent**                            | Output         | Compiles structured output for downstream applications              |
 
 
 ### 🛠️ Toolkits Used in ChemEAGLE
