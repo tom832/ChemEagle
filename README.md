@@ -75,6 +75,9 @@ results = ChemEagle(image_path)
 print(results)
 ```
 
+### Benchmarking
+1. The Benchmark dataset and ground truth can be found in [huggingface](https://huggingface.co/datasets/CYF200127/ChemEagle/blob/main/Dataset.zip)
+
 ## :warning: Acknowledgement
 Our code is based on [MolNexTR](https://github.com/CYF2000127/MolNexTR), [MolScribe](https://github.com/thomas0809/MolScribe), [RxnIM](https://github.com/CYF2000127/RxnIM) [RxnScribe](https://github.com/thomas0809/RxNScribe), [ChemNER](https://github.com/Ozymandias314/ChemIENER), [ChemRxnExtractor](https://github.com/jiangfeng1124/ChemRxnExtractor), [AutoAgents](https://github.com/Link-AGI/AutoAgents), [OpenAI](https://openai.com/) and [Azure](https://azure.microsoft.com/) from Microsoft. Thanks for their great jobs!
 
