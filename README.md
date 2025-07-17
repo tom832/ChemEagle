@@ -41,7 +41,7 @@ The output dictionary is a complete reaction list with reactant SMILES, product 
 ]
 }
 ```
-The input can be any chemical graphics, feel free to try more examples!
+The input can be any chemical graphics, feel free to try more examples! (NOTE: If the local CPU is larger than 8 cores, it is recommended to use the local code, which will be faster than the web demo.)
 ![visualization](examples/reaction5.png)
 ![visualization](examples/template1.png)
 
