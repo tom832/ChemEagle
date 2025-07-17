@@ -45,7 +45,8 @@ The input can be any chemical graphics, feel free to try more examples!
 ![visualization](examples/reaction5.png)
 ![visualization](examples/template1.png)
 <div align="center",width="100">
-</div> 
+
+
 ## :rocket: Using the code and the model
 ### Using the code
 Clone the following repositories:
