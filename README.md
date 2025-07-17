@@ -86,7 +86,7 @@ When the input is a multimodal chemical reaction graphics:
 <div align="center",width="100">
 </div> 
 
-The output dictionary is a complete reaction list with reactant SMILES, product SMILES, detailed conditions and additional information for every reaction in the graphics:
+The output dictionary is a complete machine-readable reaction list with reactant SMILES, product SMILES, detailed conditions and additional information for every reaction in the graphics:
 
 ``` 
 {
