@@ -16,12 +16,12 @@ An example workflow of our ChemEagle. It illustrates how ChemEagle extracts and 
 
 Go to our [ChemEagle.Web demo](https://huggingface.co/spaces/CYF200127/ChemEagle) to directly use our tool online!
 
-The input is a multimodal chemical reaction image:
+When the input is a multimodal chemical reaction graphics:
 ![visualization](examples/1.png)
 <div align="center",width="100">
 </div> 
 
-The output dictionary is a complete reaction list with reactant SMILES, product SMILES, detailed conditions and additional information for every reaction in the image:
+The output dictionary is a complete reaction list with reactant SMILES, product SMILES, detailed conditions and additional information for every reaction in the graphics:
 
 ``` 
 {
@@ -40,7 +40,8 @@ The output dictionary is a complete reaction list with reactant SMILES, product 
 {"reaction_id":"2_1",... ###More detailed reactions}
 ]
 }
-``` 
+```
+The input can be any chemical graphics, feel free to try more examples!
 
 ## :rocket: Using the code and the model
 ### Using the code
@@ -67,7 +68,7 @@ export API_KEY=your-openai-api-key
 export AZURE_ENDPOINT=your-azure-endpoint-if-use
 ```
 
-4. Run the following code to extract multimodal chemical reactions from a multimodal reaction image:
+4. Run the following code to extract machine-readable chemical data from a chemical graphics:
 ```python
 from main import ChemEagle
 image_path = './examples/1.png'
