@@ -59,12 +59,13 @@ conda activate chemeagle
 ```
 pip install -r requirements.txt
 ```
+3. Download the necessary [model](https://huggingface.co/datasets/CYF200127/ChemEagle/blob/main/pix2seq_reaction_full.ckpt) and put in the main path
 
-3. Set up your API keys in your environment.
+4. Set up your API keys in your environment.
 ```
 export API_KEY=your-openai-api-key
+export AZURE_ENDPOINT=your-azure-endpoint-if-use
 ```
-Alternatively, add your API keys in the [api_key.txt](./api_key.txt)
 
 4. Run the following code to extract multimodal chemical reactions from a multimodal reaction image:
 ```python
@@ -75,6 +76,6 @@ print(results)
 ```
 
 ## :warning: Acknowledgement
-Our code is based on [MolNexTR](https://github.com/CYF2000127/MolNexTR), [MolScribe](https://github.com/thomas0809/MolScribe), [RxnIM](https://github.com/CYF2000127/RxnIM) [RxnScribe](https://github.com/thomas0809/RxNScribe), [ChemNER](https://github.com/Ozymandias314/ChemIENER), [ChemRxnExtractor](https://github.com/jiangfeng1124/ChemRxnExtractor), [AutoAgents](https://github.com/Link-AGI/AutoAgents) and [OpenAI](https://openai.com/) thanks their great jobs!
+Our code is based on [MolNexTR](https://github.com/CYF2000127/MolNexTR), [MolScribe](https://github.com/thomas0809/MolScribe), [RxnIM](https://github.com/CYF2000127/RxnIM) [RxnScribe](https://github.com/thomas0809/RxNScribe), [ChemNER](https://github.com/Ozymandias314/ChemIENER), [ChemRxnExtractor](https://github.com/jiangfeng1124/ChemRxnExtractor), [AutoAgents](https://github.com/Link-AGI/AutoAgents), [OpenAI](https://openai.com/) and [Azure](https://azure.microsoft.com/) from microsoft thanks their great jobs!
 
 
