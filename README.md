@@ -7,11 +7,9 @@ In this work, we present ChemEagle, a multimodal large language model (MLLM)-bas
 
 [comment]: <> ()
 ![visualization](examples/chemeagle.png)
-<div align="center">
-An example workflow of our ChemEagle. It illustrates how ChemEagle extracts and structures multimodal chemical reaction data. Each agent handles specific tasks, from reaction image parsing and molecular recognition to SMILES reconstruction and condition role interpretation, ensuring accurate and structured data integration.
-</div>
+<div align="center"> An example workflow of ChemEAGLE. Each agent handles a specific sub-task, from reaction image parsing and molecular recognition to SMILES reconstruction and condition role interpretation, ensuring accurate, structured chemical data integration. </div>
   
-###:Agents Overview
+### 🧩 Agents Overview
 | Agent Name                                          | Main Function                                                     |
 | --------------------------------------------------- | ----------------------------------------------------------------- |
 | **Planner Agent**                                   | Analyzes input, plans extraction workflow, assigns sub-tasks      |
@@ -23,7 +21,7 @@ An example workflow of our ChemEagle. It illustrates how ChemEagle extracts and 
 | **Text Extraction Agent**                           | Extracts and aligns reaction info from associated texts           |
 | **Data Structure Agent**                            | Compiles structured output for downstream applications            |
 
-###:toolbox: Toolkits Used in ChemEagle
+### 🛠️ Toolkits Used in ChemEagle
 | Tool Name               | Category             | Description                                            |
 | ----------------------- | -------------------- | ------------------------------------------------------ |
 | **MolDetector**         | Image Analysis       | Detects and localizes molecules in images              |
