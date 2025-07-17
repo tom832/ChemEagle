@@ -3,25 +3,28 @@
 
 ## :sparkles: Highlights
 <p align="justify">
-In this work, we present ChemEagle, a multimodal large language model (MLLM)-based multi-agent system that integrates diverse chemical information extraction tools to extract multimodal chemical reactions. By integrating 7 expert-designed tools and 6 chemical information extraction agents, ChemEagle not only processes individual modalities but also utilizes MLLMs' reasoning capabilities to unify extracted data, ensuring more accurate and comprehensive reaction representations. By bridging multimodal gaps, our approach significantly improves automated chemical knowledge extraction, facilitating more robust AI-driven chemical research.
+In this work, we present ChemEagle, a multimodal large language model (MLLM)-based multi-agent system that integrates diverse chemical information extraction tools to extract multimodal chemical reactions. By integrating 10 expert-designed tools and 6 chemical information extraction agents, ChemEagle not only processes individual modalities but also utilizes MLLMs' reasoning capabilities to unify extracted data, ensuring more accurate and comprehensive reaction representations. By bridging multimodal gaps, our approach significantly improves automated chemical knowledge extraction, facilitating more robust AI-driven chemical research.
 
 [comment]: <> ()
 ![visualization](examples/chemeagle.png)
 <div align="center"> An example workflow of ChemEAGLE. Each agent handles a specific sub-task, from reaction image parsing and molecular recognition to SMILES reconstruction and condition role interpretation, ensuring accurate, structured chemical data integration. </div>
   
 ### 🧩 Agents Overview
-| Agent Name                                          | Main Function                                                     |
-| --------------------------------------------------- | ----------------------------------------------------------------- |
-| **Planner Agent**                                   | Analyzes input, plans extraction workflow, assigns sub-tasks      |
-| **Reaction Template Parsing Agent**                 | Parses reaction templates, integrates R-group substitutions       |
-| **Molecular Recognition Agent**                     | Detects and interprets all molecules in images                    |
-| **Variant-based Table SMILES Reconstruction Agent** | Reconstructs full reactant SMILES from product variants in tables |
-| **Text-based Table SMILES Reconstruction Agent**    | Substitutes R-groups from text-based tables into molecular graphs |
-| **Condition Interpretation Agent**                  | Extracts and categorizes reaction conditions (e.g. solvent, temp) |
-| **Text Extraction Agent**                           | Extracts and aligns reaction info from associated texts           |
-| **Data Structure Agent**                            | Compiles structured output for downstream applications            |
+| Agent Name                                          | Category            | Main Function                                                       |
+| --------------------------------------------------- | ------------------- | ------------------------------------------------------------------- |
+| **Planner Agent**                                   | Planning & Observer | Analyzes input, plans extraction steps, assigns sub-tasks to agents |
+| **Planner Observer Agent**                          | Planning & Observer | Monitors extraction workflow, ensures logical plan                  |
+| **Action Observer Agent**                           | Planning & Observer | Oversees agent actions, validates consistency and correctness       |
+| **Reaction Template Parsing Agent**                 | Extraction          | Parses reaction templates, integrates R-group substitutions         |
+| **Molecular Recognition Agent**                     | Extraction          | Detects and interprets all molecules in images                      |
+| **Structure-based Table R-group substitution Agent** | Extraction          | Reconstructs reactant SMILES from product variants in tables        |
+| **Text-based Table R-group substitution Agent**     | Extraction          | Substitutes R-groups from text-based tables into molecular graphs   |
+| **Condition Interpretation Agent**                  | Extraction          | Extracts and categorizes reaction conditions (solvent, temp, etc.)  |
+| **Text Extraction Agent**                           | Extraction          | Extracts and aligns reaction info from associated texts             |
+| **Data Structure Agent**                            | Extraction          | Compiles structured output for downstream applications              |
 
-### 🛠️ Toolkits Used in ChemEagle
+
+### 🛠️ Toolkits Used in ChemEAGLE
 | Tool Name               | Category             | Description                                            |
 | ----------------------- | -------------------- | ------------------------------------------------------ |
 | **MolDetector**         | Image Analysis       | Detects and localizes molecules in images              |
