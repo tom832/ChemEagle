@@ -3,7 +3,7 @@
 
 ## :sparkles: Highlights
 <p align="justify">
-In this work, we present ChemEagle, a multimodal large language model (MLLM)-based multi-agent system that integrates diverse chemical information extraction tools to extract multimodal chemical reactions. By integrating ten expert-designed tools and seven chemical information extraction agents, ChemEagle not only processes individual modalities but also utilizes MLLMs' reasoning capabilities to unify extracted data, ensuring more accurate and comprehensive reaction representations. By bridging multimodal gaps, our approach significantly improves automated chemical knowledge extraction, facilitating more robust AI-driven chemical research.
+In this work, we present ChemEAGLE, a multimodal large language model (MLLM)-based multi-agent system that integrates diverse chemical information extraction tools to extract multimodal chemical reactions. By integrating ten expert-designed tools and seven chemical information extraction agents, ChemEAGLE not only processes individual modalities but also utilizes MLLMs' reasoning capabilities to unify extracted data, ensuring more accurate and comprehensive reaction representations. By bridging multimodal gaps, our approach significantly improves automated chemical knowledge extraction, facilitating more robust AI-driven chemical research.
 
 [comment]: <> ()
 ![visualization](examples/chemeagle.png)
@@ -77,9 +77,9 @@ print(results)
 ### Benchmarking
 All benchmark datasets, predictions, and ground truth can be found in our [Huggingface Repo](https://huggingface.co/datasets/CYF200127/ChemEagle/blob/main/Dataset.zip).
 
-## 🤗 Chemical information extraction using [ChemEagle.Web](https://huggingface.co/spaces/CYF200127/ChemEagle) 
+## 🤗 Chemical information extraction using [ChemEAGLE.Web](https://huggingface.co/spaces/CYF200127/ChemEagle) 
 
-Go to our [ChemEagle.Web app demo](https://huggingface.co/spaces/CYF200127/ChemEagle) to directly use our tool online!
+Go to our [ChemEAGLE.Web app demo](https://huggingface.co/spaces/CYF200127/ChemEagle) to directly use our tool online!
 
 When the input is a multimodal chemical reaction graphics:
 ![visualization](examples/1.png)
