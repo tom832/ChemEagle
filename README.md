@@ -17,8 +17,8 @@ In this work, we present ChemEagle, a multimodal large language model (MLLM)-bas
 | **Action Observer Agent**                           | Planning & Observer | Oversees agent actions, validates consistency and correctness       |
 | **Reaction Template Parsing Agent**                 | Extraction          | Parses reaction templates, integrates R-group substitutions         |
 | **Molecular Recognition Agent**                     | Extraction          | Detects and interprets all molecules in images                      |
-| **Structure-based Table R-group substitution Agent** | Extraction          | Substitutes R-groups and reconstructs reactant SMILES from product variant structure-based tables        |
-| **Text-based Table R-group substitution Agent**     | Extraction          | Substitutes R-groups and reconstructs SMILES from text-based tables  |
+| **Structure-based Table R-group Substitution Agent** | Extraction          | Substitutes R-groups and reconstructs reactant SMILES from product variant structure-based tables        |
+| **Text-based Table R-group Substitution Agent**     | Extraction          | Substitutes R-groups and reconstructs SMILES from text-based tables  |
 | **Condition Interpretation Agent**                  | Extraction          | Extracts and categorizes reaction conditions (solvent, temp, etc.)  |
 | **Text Extraction Agent**                           | Extraction          | Extracts and aligns reaction info from associated texts             |
 | **Data Structure Agent**                            | Extraction          | Compiles structured output for downstream applications              |
