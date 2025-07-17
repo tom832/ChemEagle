@@ -7,7 +7,7 @@ In this work, we present ChemEagle, a multimodal large language model (MLLM)-bas
 
 [comment]: <> ()
 ![visualization](examples/chemeagle.png)
-<div align="center"> An example workflow of ChemEAGLE. Each agent handles a specific sub-task, from reaction image parsing and molecular recognition to SMILES reconstruction and condition role interpretation, ensuring accurate, structured chemical data integration. </div>
+<div align="center"> An example workflow of ChemEAGLE. Each agent handles a specific sub-task, from reaction template parsing and molecular recognition to SMILES reconstruction and condition role interpretation, ensuring accurate, structured chemical data integration. </div>
   
 ### 🧩 Agents Overview
 | Agent Name                                          | Category            | Main Function                                                       |
@@ -16,7 +16,7 @@ In this work, we present ChemEagle, a multimodal large language model (MLLM)-bas
 | **Planner Observer Agent**                          | Planning & Observer | Monitors extraction workflow, ensures logical plan                  |
 | **Action Observer Agent**                           | Planning & Observer | Oversees agent actions, validates consistency and correctness       |
 | **Reaction Template Parsing Agent**                 | Extraction          | Parses reaction templates, integrates R-group substitutions         |
-| **Molecular Recognition Agent**                     | Extraction          | Detects and interprets all molecules in images                      |
+| **Molecular Recognition Agent**                     | Extraction          | Detects and interprets all molecules in graphics                      |
 | **Structure-based Table R-group Substitution Agent** | Extraction          | Substitutes R-groups and reconstructs reactant SMILES from product variant structure-based tables        |
 | **Text-based Table R-group Substitution Agent**     | Extraction          | Substitutes R-groups and reconstructs SMILES from text-based tables  |
 | **Condition Interpretation Agent**                  | Extraction          | Extracts and categorizes reaction conditions (solvent, temp, etc.)  |
@@ -27,15 +27,15 @@ In this work, we present ChemEagle, a multimodal large language model (MLLM)-bas
 ### 🛠️ Toolkits Used in ChemEAGLE
 | Tool Name               | Category                          | Description                                            |
 | ----------------------- | --------------------------------- | ------------------------------------------------------ |
-| **TesseractOCR**        | Computer Vision                   | Optical character recognition for text in images       |
+| **TesseractOCR**        | Computer Vision                   | Optical character recognition for text in graphics       |
 | **TableParser**         | Computer Vision                   | Table structure detection and parsing                  |
-| **MolDetector**         | Computer Vision                   | Locates and segments molecules within images           |
+| **MolDetector**         | Computer Vision                   | Locates and segments molecules within graphics           |
 | **MolNER**              | Text-based Information Extraction | Chemical named entity recognition from text            |
 | **ChemRxnExtractor**    | Text-based Information Extraction | Extracts chemical reactions and roles from text        |
-| **Image2Graph**         | Molecular Recognition             | Converts molecular images to graph representations     |
+| **Image2Graph**         | Molecular Recognition             | Converts molecular sub-images to graph representations     |
 | **Graph2SMILES**        | Molecular Recognition             | Converts molecular graphs to SMILES strings            |
 | **SMILESReconstructor** | Molecular Recognition             | Reconstructs reactant SMILES from product variants     |
-| **RxnImgParser**        | Reaction Image Parsing            | Segments reaction images into templates and components |
+| **RxnImgParser**        | Reaction Image Parsing            | Segments reaction template images into templates and components |
 | **RxnConInterpreter**   | Reaction Image Parsing            | Assigns semantic roles to extracted condition text     |
 
 
