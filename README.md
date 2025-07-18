@@ -103,7 +103,8 @@ The output dictionary is a complete machine-readable reaction list with reactant
 "additional_info":[{"text":"14:1 dr, 91% ee"}]},
 
 {"reaction_id":"2_1",... ###More detailed reactions}
-]
+],
+"text_extraction":"..."
 }
 ```
 The input can be any chemical graphics; feel free to try more examples! 
