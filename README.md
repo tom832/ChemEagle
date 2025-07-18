@@ -12,9 +12,9 @@ In this work, we present ChemEAGLE, a multimodal large language model (MLLM)-bas
 ### 🧩 Agents Overview
 | Agent Name                                          | Category            | Main Function                                                       |
 | --------------------------------------------------- | ------------------- | ------------------------------------------------------------------- |
-| **Planner**                                   | Planning & Observer | Analyzes input, plans extraction steps, assigns sub-tasks to agents |
-| **Plan Observer**                          | Planning & Observer | Monitors extraction workflow, ensures logical plan                  |
-| **Action Observer**                           | Planning & Observer | Oversees agent actions, validates consistency and correctness       |
+| **Planner**                                   | Planning  | Analyzes input, plans extraction steps, assigns sub-tasks to agents |
+| **Plan Observer**                          | Validation | Monitors extraction workflow, ensures logical plan                  |
+| **Action Observer**                           | Validation | Oversees agent actions, validates consistency and correctness       |
 | **Reaction Template Parsing Agent**                 | Extraction          | Parses reaction templates, integrates R-group substitutions         |
 | **Molecular Recognition Agent**                     | Extraction          | Detects and interprets all molecules in graphics                      |
 | **Structure-based Table R-group Substitution Agent** | Extraction          | Substitutes R-groups and reconstructs reactant SMILES from product variant structure-based tables        |
