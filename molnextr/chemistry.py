@@ -490,14 +490,17 @@ def get_smiles_from_symbol(symbol, mol, atom, bonds):
     """
     if symbol in ABBREVIATIONS:
         return ABBREVIATIONS[symbol].smiles
-    if len(symbol) > 20:
-        return None
 
     total_bonds = int(sum([bond.GetBondTypeAsDouble() for bond in bonds]))
     formula_list = _expand_carbon(_parse_formula(symbol))
     smiles, bonds_left, num_trails, success = _condensed_formula_list_to_smiles(formula_list, total_bonds, None)
     if success:
         return smiles
+    
+    try_mol = Chem.MolFromSmiles(symbol)
+    if try_mol is not None:
+        return symbol
+    
     return None
 
 
