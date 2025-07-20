@@ -173,7 +173,7 @@ def ChemEagle(image_path: str) -> dict:
         'process_reaction_image_with_product_variant_R_group': process_reaction_image_with_product_variant_R_group,
         'process_reaction_image_with_table_R_group': process_reaction_image_with_table_R_group,
         'get_full_reaction': get_full_reaction,
-        'get_multi_molecular_full_in_reaction': get_multi_molecular_full
+        'get_multi_molecular_full': get_multi_molecular_full
     }
 
     # Step 2: 处理多个工具调用
