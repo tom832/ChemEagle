@@ -33,11 +33,15 @@ First out put the original symbols after correcting errors. Then for each row of
    “condition"：[[
         {
           "role": "reagent",
-          "text": "B-chlorocatecholborane (1.4 equiv)"
+          "text": "B-chlorocatecholborane (1.4 equiv)",
+          "smiles":"....",
+          "label":"...."
         },
         {
           "role": "solvent",
-          "text": "toluene"
+          "text": "toluene",
+          "smiles":"....",
+          "label":"...."
         },
         {
           "role": "time",
