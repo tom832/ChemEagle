@@ -93,11 +93,13 @@ The result should look like this json format:
    “condition"：[#Note: identify the condition roles in the original conditions and table both
         {
           "role": "reagent",
-          "text": "B-chlorocatecholborane (1.4 equiv)"
+          "text": "B-chlorocatecholborane (1.4 equiv)",
+          "smiles": "reagent smiles",
         },
         {
           "role": "solvent",
-          "text": "toluene"
+          "text": "toluene",
+          "smiles": "solvent smiles",
         },
         {
           "role": "time",
