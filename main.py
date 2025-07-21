@@ -31,30 +31,18 @@ if not API_KEY:
 AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT")
 
 def ChemEagle(image_path: str) -> dict:
-    """
-    输入化学反应图像路径，通过 GPT 模型和 TOOLS 提取反应信息并返回整理后的反应数据。
-
-    Args:
-        image_path (str): 图像文件路径。
-
-    Returns:
-        dict: 整理后的反应数据，包括反应物、产物和反应模板。
-    """
-    # 初始化 OpenChemIE 模型和 Azure OpenAI 客户端
     client = AzureOpenAI(
         api_key=API_KEY,
         api_version='2024-06-01',
         azure_endpoint=AZURE_ENDPOINT
     )
 
-    # 加载图像并编码为 Base64
+
     def encode_image(image_path: str):
         with open(image_path, "rb") as image_file:
             return base64.b64encode(image_file.read()).decode('utf-8')
 
     base64_image = encode_image(image_path)
-
-    # GPT 工具调用配置
     tools = [
         {
         'type': 'function',
@@ -133,12 +121,15 @@ def ChemEagle(image_path: str) -> dict:
     # 提供给 GPT 的消息内容
     with open('./prompt/prompt_final_simple_version.txt', 'r') as prompt_file:
         prompt = prompt_file.read()
+    with open('./prompt/prompt_plan.txt', 'r') as prompt_file:
+        prompt_plan = prompt_file.read()
+    
     messages = [
         {'role': 'system', 'content': 'You are a helpful assistant.'},
         {
             'role': 'user',
             'content': [
-                {'type': 'text', 'text': prompt},
+                {'type': 'text', 'text': prompt_plan},
                 {'type': 'image_url', 'image_url': {'url': f'data:image/png;base64,{base64_image}'}}
             ]
         }
@@ -156,7 +147,7 @@ def ChemEagle(image_path: str) -> dict:
             'content': [
                 {
                     'type': 'text',
-                    'text': prompt
+                    'text': prompt_plan
                 },
                 {
                     'type': 'image_url',
@@ -168,7 +159,7 @@ def ChemEagle(image_path: str) -> dict:
     ],
     tools = tools)
     
-# Step 1: 工具映射表
+
     TOOL_MAP = {
         'process_reaction_image_with_product_variant_R_group': process_reaction_image_with_product_variant_R_group,
         'process_reaction_image_with_table_R_group': process_reaction_image_with_table_R_group,
@@ -176,12 +167,11 @@ def ChemEagle(image_path: str) -> dict:
         'get_multi_molecular_full': get_multi_molecular_full
     }
 
-    # Step 2: 处理多个工具调用
+
     tool_calls = response.choices[0].message.tool_calls
     print(f"tool_calls:{tool_calls}")
     results = []
 
-    # 遍历每个工具调用
     for tool_call in tool_calls:
         tool_name = tool_call.function.name
         tool_arguments = tool_call.function.arguments
@@ -194,8 +184,7 @@ def ChemEagle(image_path: str) -> dict:
             tool_result = TOOL_MAP[tool_name](image_path)
         else:
             raise ValueError(f"Unknown tool called: {tool_name}")
-        
-        # 保存每个工具调用结果
+
         results.append({
             'role': 'tool',
             'content': json.dumps({
