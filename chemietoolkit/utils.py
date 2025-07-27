@@ -913,7 +913,7 @@ def backout_without_coref(results, coref_results, coref_results_dict, coref_smil
                         
                         all_other_prod_mols = []
     
-                        r_group_sub_pattern = re.compile('(?P<name>[RXY]\d?)[ ]*=[ ]*(?P<group>\w+)')
+                        r_group_sub_pattern = re.compile('(?P<name>[RXY]\d?)[ ]*=========[ ]*(?P<group>\w+)')
 
                         for parsed_labels in coref_results_dict[other_prod]:
                             res = r_group_sub_pattern.search(parsed_labels)
