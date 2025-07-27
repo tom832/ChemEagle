@@ -3,7 +3,6 @@ import pdfminer.high_level
 import pdfminer.layout
 from operator import itemgetter
 import os
-import pdftotext
 from chemrxnextractor import RxnExtractor
 
 class ChemRxnExtractor(object):
@@ -15,14 +14,6 @@ class ChemRxnExtractor(object):
         self.rxn_extractor = RxnExtractor(self.model_dir, use_cuda=use_cuda)
         self.text_file = "info.txt"
         self.pdf_text = ""
-        if len(self.pdf_file) > 0:
-            with open(self.pdf_file, "rb") as f:
-                self.pdf_text = pdftotext.PDF(f)
-        
-    def set_pdf_file(self, pdf):
-        self.pdf_file = pdf
-        with open(self.pdf_file, "rb") as f:
-            self.pdf_text = pdftotext.PDF(f)
     
     def set_pages(self, pn):
         self.pages = pn
