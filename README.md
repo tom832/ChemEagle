@@ -60,7 +60,7 @@ pip install -r requirements.txt
 ```
 3. Download the necessary [models](https://huggingface.co/datasets/CYF200127/ChemEagle/tree/main) and put in the main path.
 
-4. Set up your Azure OpenAI API keys in your environment.
+4. Set up your Azure OpenAI API key in your environment. Here is a detailed [tutorial](https://zhuanlan.zhihu.com/p/678367436) on how to obtain the Azure OpenAI API key and endpoint.
 ```
 export API_KEY=your-azure-openai-api-key
 export AZURE_ENDPOINT=your-azure-endpoint
