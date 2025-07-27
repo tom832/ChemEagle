@@ -7,7 +7,7 @@ from openai import AzureOpenAI
 import numpy as np
 from PIL import Image
 import json
-from get_molecular_agent import process_reaction_image_with_multiple_products_and_text_correctR
+from get_molecular_agent import process_reaction_image_with_multiple_products_and_text_correctR, process_reaction_image_with_multiple_products_and_text_correctmultiR
 from get_reaction_agent import get_reaction_withatoms_correctR
 import sys
 from rxnim import RxnScribe
@@ -127,7 +127,7 @@ def get_cached_multi_molecular(image_path: str):
     if image_path not in _process_multi_molecular_cache:
         ##print(f"[get_cached_multi_molecular] Processing image: {image_path}")
         _process_multi_molecular_cache[image_path] = (
-            process_reaction_image_with_multiple_products_and_text_correctR(image_path)
+            process_reaction_image_with_multiple_products_and_text_correctmultiR(image_path)
             ################################model.extract_molecule_corefs_from_figures([image])#############################################################################################
             )
         ##print(f"original output: {model.extract_molecule_corefs_from_figures([image])}")
@@ -289,7 +289,7 @@ def get_full_reaction(image_path: str) -> dict:
                     entry.pop(key, None)
 
     #raw_prediction =json.dumps(raw_prediction)
-
+    print(f"raw_prediction:{raw_prediction}")
     coref_results = model.extract_molecule_corefs_from_figures([image])
     for item in coref_results:
         for bbox in item.get("bboxes", []):
@@ -303,6 +303,7 @@ def get_full_reaction(image_path: str) -> dict:
         "reaction_prediction": raw_prediction,  # 是个list
         "molecule_coref": parsed               # 结构化分子识别结果
     }
+    print(f"combined_result:{combined_result}")
     return combined_result
 
 
@@ -482,7 +483,7 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
     
     # 获取 GPT 生成的结果
     gpt_output = json.loads(response.choices[0].message.content)
-    #print(gpt_output)
+    print("R_group_agent_output:", gpt_output)
     image = Image.open(image_path).convert('RGB')
     image_np = np.array(image)
 
