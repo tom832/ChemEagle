@@ -17,6 +17,7 @@ API_KEY = os.getenv("API_KEY")
 if not API_KEY:
     raise ValueError("Please set API_KEY")
 AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT")
+API_VERSION = os.getenv("API_VERSION")
 
 def merge_sentences(sentences):
     """
@@ -99,7 +100,7 @@ def text_extraction_agent(image_path: str) -> dict:
     """
     client = AzureOpenAI(
         api_key=API_KEY,
-        api_version="2024-06-01",
+        api_version=API_VERSION,
         azure_endpoint=AZURE_ENDPOINT
     )
 
