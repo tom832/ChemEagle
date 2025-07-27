@@ -41,13 +41,13 @@ In this work, we present ChemEAGLE, a multimodal large language model (MLLM)-bas
 
 
 
-## :rocket: Using the code and the model
+## :rocket: Using the code for ChemEAGLE
 ### Using the code
 Clone the following repositories:
 ```
 git clone https://github.com/CYF2000127/ChemEagle
 ```
-### Example usage of the model
+### Example usage of the ChemEAGLE
 1. First create and activate a [conda](https://numdifftools.readthedocs.io/en/stable/how-to/create_virtual_env_with_conda.html) environment with the following command in a Linux, Windows, or MacOS environment (Linux is the most recommended):
 ```
 conda create -n chemeagle python=3.10
@@ -60,10 +60,10 @@ pip install -r requirements.txt
 ```
 3. Download the necessary [models](https://huggingface.co/datasets/CYF200127/ChemEagle/tree/main) and put in the main path.
 
-4. Set up your API keys in your environment.
+4. Set up your Azure OpenAI API keys in your environment.
 ```
-export API_KEY=your-openai-api-key
-export AZURE_ENDPOINT=your-azure-endpoint-if-use
+export API_KEY=your-azure-openai-api-key
+export AZURE_ENDPOINT=your-azure-endpoint
 ```
 
 4. Run the following code to extract machine-readable chemical data from a chemical graphics:
