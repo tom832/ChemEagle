@@ -34,7 +34,7 @@ API_KEY = os.getenv("API_KEY")
 if not API_KEY:
     raise ValueError("Please set API_KEY")
 AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT")
-
+API_VERSION = os.getenv("API_VERSION")
 
 def get_multi_molecular(image_path: str) -> list:
     '''Returns a list of reactions extracted from the image.'''
@@ -102,7 +102,7 @@ def process_reaction_image_with_multiple_products_and_text(image_path: str) -> d
 
     client = AzureOpenAI(
         api_key=API_KEY,
-        api_version='2024-06-01',
+        api_version=API_VERSION,
         azure_endpoint=AZURE_ENDPOINT
     )
 
@@ -354,7 +354,7 @@ def process_reaction_image_with_multiple_products_and_text_correctR(image_path: 
     """
     client = AzureOpenAI(
         api_key=API_KEY,
-        api_version='2024-06-01',
+        api_version=API_VERSION,
         azure_endpoint=AZURE_ENDPOINT
     )
 
@@ -603,7 +603,7 @@ def process_reaction_image_with_multiple_products_and_text_correctmultiR(image_p
     """
     client = AzureOpenAI(
         api_key=API_KEY,
-        api_version='2024-06-01',
+        api_version=API_VERSION,
         azure_endpoint=AZURE_ENDPOINT
     )
 
