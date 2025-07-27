@@ -116,6 +116,10 @@ SUBSTITUTIONS: List[Substitution] = [
 
     ###MOLNEXTR
     Substitution(['C5H17','C5H11','C5H14'], 'CCCCC', "CCCCC", 0.0),
+    Substitution(['C4H9','C4H10'], 'CCCC', "CCCC", 0.0),
+    Substitution(['C3H7','C3H8'], 'CCC', "CCC", 0.0),
+    Substitution(['C2H5','C2H6'], 'CC', "CC", 0.0),
+    Substitution(['C11H23','C17H23'], 'CCCCCCCCCCC', "CCCCCCCCCCC", 0.0),
     Substitution(['Alyl','Allyl'], 'C=CC', "C=CC", 0.0),
     Substitution(['OAll','OAlI'], 'OCC=C', "OCC=C", 0.0),
 
