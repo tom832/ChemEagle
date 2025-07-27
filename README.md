@@ -64,6 +64,7 @@ pip install -r requirements.txt
 ```
 export API_KEY=your-azure-openai-api-key
 export AZURE_ENDPOINT=your-azure-endpoint
+export API_VERSION=your-api-version
 ```
 
 4. Run the following code to extract machine-readable chemical data from a chemical graphics:
