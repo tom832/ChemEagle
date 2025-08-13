@@ -1,5 +1,5 @@
 # ChemEAGLE
-
+This is the official code of the paper "A Multi-Agent System Enables Versatile Information Extraction from the Chemical Literature"
 
 ## :sparkles: Highlights
 <p align="justify">
