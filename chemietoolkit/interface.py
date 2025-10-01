@@ -19,7 +19,7 @@ class ChemIEToolkit:
         else:
             self.device = torch.device(device)
 
-        self._molscribe = None
+        self._molnextr = None
         self._rxnim = None
         self._pdfparser = None
         self._moldet = None
@@ -28,13 +28,13 @@ class ChemIEToolkit:
         self._coref = None
 
     @property
-    def molscribe(self):
-        if self._molscribe is None:
-            self.init_molscribe()
-        return self._molscribe
+    def molnextr(self):
+        if self._molnextr is None:
+            self.init_molnextr()
+        return self._molnextr
 
     @lru_cache(maxsize=None)
-    def init_molscribe(self, ckpt_path=None):
+    def init_molnextr(self, ckpt_path=None):
         """
         Set model to custom checkpoint
         Parameters:
@@ -42,7 +42,7 @@ class ChemIEToolkit:
         """
         if ckpt_path is None:
             ckpt_path = hf_hub_download("CYF200127/ChemEAGLEModel", "molnextr.pth")
-        self._molscribe = MolNexTR(ckpt_path, device=self.device)
+        self._molnextr = MolNexTR(ckpt_path, device=self.device)
     
 
     @property
@@ -323,12 +323,12 @@ class ChemIEToolkit:
         bboxes = self.extract_molecule_bboxes_from_figures(figures, batch_size=batch_size)
         figures = [convert_to_cv2(figure) for figure in figures]
         results, cropped_images, refs = clean_bbox_output(figures, bboxes)
-        mol_info = self.molscribe.predict_images(cropped_images, batch_size=batch_size)
+        mol_info = self.molnextr.predict_images(cropped_images, batch_size=batch_size)
         for info, ref in zip(mol_info, refs):
             ref.update(info)
         return results
 
-    def extract_molecule_corefs_from_figures_in_pdf(self, pdf, batch_size=16, num_pages=None, molscribe = True, ocr = True):
+    def extract_molecule_corefs_from_figures_in_pdf(self, pdf, batch_size=16, num_pages=None, molnextr = True, ocr = True):
         """
         Get all molecule bboxes and corefs from figures in pdf
         Parameters:
@@ -360,12 +360,12 @@ class ChemIEToolkit:
         """
         figures = self.extract_figures_from_pdf(pdf, num_pages=num_pages, output_bbox=True)
         images = [figure['figure']['image'] for figure in figures]
-        results = self.extract_molecule_corefs_from_figures(images, batch_size=batch_size, molscribe=molscribe, ocr=ocr)
+        results = self.extract_molecule_corefs_from_figures(images, batch_size=batch_size, molnextr=molnextr, ocr=ocr)
         for figure, result in zip(figures, results):
             result['page'] = figure['page']
         return results
 
-    def extract_molecule_corefs_from_figures(self, figures, batch_size=16, molscribe=True, ocr=True):
+    def extract_molecule_corefs_from_figures(self, figures, batch_size=16, molnextr=True, ocr=True):
         """
         Get all molecule bboxes and corefs from list of figures
         Parameters:
@@ -394,16 +394,16 @@ class ChemIEToolkit:
             ]
         """
         figures = [convert_to_pil(figure) for figure in figures]
-        return self.coref.predict_images(figures, batch_size=batch_size, coref=True, molscribe = molscribe, ocr = ocr)
+        return self.coref.predict_images(figures, batch_size=batch_size, coref=True, molnextr = molnextr, ocr = ocr)
     
-    def extract_reactions_from_figures_in_pdf(self, pdf, batch_size=16, num_pages=None, molscribe=True, ocr=True):
+    def extract_reactions_from_figures_in_pdf(self, pdf, batch_size=16, num_pages=None, molnextr=True, ocr=True):
         """
         Get reaction information from figures in pdf
         Parameters:
             pdf: path to pdf, or byte file
             batch_size: batch size for inference in all models
             num_pages: process only first `num_pages` pages, if `None` then process all
-            molscribe: whether to predict and return smiles and molfile info
+            molnextr: whether to predict and return smiles and molfile info
             ocr: whether to predict and return text of conditions
         Returns:
             list of figures and corresponding molecule info in the following format
@@ -444,18 +444,18 @@ class ChemIEToolkit:
         """
         figures = self.extract_figures_from_pdf(pdf, num_pages=num_pages, output_bbox=True)
         images = [figure['figure']['image'] for figure in figures]
-        results = self.extract_reactions_from_figures(images, batch_size=batch_size, molscribe=molscribe, ocr=ocr)
+        results = self.extract_reactions_from_figures(images, batch_size=batch_size, molnextr=molnextr, ocr=ocr)
         for figure, result in zip(figures, results):
             result['page'] = figure['page']
         return results
 
-    def extract_reactions_from_figures(self, figures, batch_size=16, molscribe=True, ocr=True):
+    def extract_reactions_from_figures(self, figures, batch_size=16, molnextr=True, ocr=True):
         """
         Get reaction information from list of figures
         Parameters:
             figures: list of PIL or ndarray images
             batch_size: batch size for inference in all models
-            molscribe: whether to predict and return smiles and molfile info
+            molnextr: whether to predict and return smiles and molfile info
             ocr: whether to predict and return text of conditions
         Returns:
             list of figures and corresponding molecule info in the following format
@@ -496,7 +496,7 @@ class ChemIEToolkit:
         """
         pil_figures = [convert_to_pil(figure) for figure in figures]
         results = []
-        reactions = self.rxnim.predict_images(pil_figures, batch_size=batch_size, molscribe=molscribe, ocr=ocr)
+        reactions = self.rxnim.predict_images(pil_figures, batch_size=batch_size, molnextr=molnextr, ocr=ocr)
         for figure, rxn in zip(figures, reactions):
             data = {
                 'figure': figure,
@@ -618,14 +618,14 @@ class ChemIEToolkit:
         results_coref = self.extract_molecule_corefs_from_figures_in_pdf(pdf, num_pages=num_pages)
         return associate_corefs(results, results_coref)
 
-    def extract_reactions_from_figures_and_tables_in_pdf(self, pdf, num_pages=None, batch_size=16, molscribe=True, ocr=True):
+    def extract_reactions_from_figures_and_tables_in_pdf(self, pdf, num_pages=None, batch_size=16, molnextr=True, ocr=True):
         """
         Get reaction information from figures and combine with table information in pdf
         Parameters:
             pdf: path to pdf, or byte file
             batch_size: batch size for inference in all models
             num_pages: process only first `num_pages` pages, if `None` then process all
-            molscribe: whether to predict and return smiles and molfile info
+            molnextr: whether to predict and return smiles and molfile info
             ocr: whether to predict and return text of conditions
         Returns:
             list of figures and corresponding molecule info in the following format
@@ -664,11 +664,11 @@ class ChemIEToolkit:
         """
         figures = self.extract_figures_from_pdf(pdf, num_pages=num_pages, output_bbox=True)
         images = [figure['figure']['image'] for figure in figures]
-        results = self.extract_reactions_from_figures(images, batch_size=batch_size, molscribe=molscribe, ocr=ocr)
-        results = process_tables(figures, results, self.molscribe, batch_size=batch_size)
+        results = self.extract_reactions_from_figures(images, batch_size=batch_size, molnextr=molnextr, ocr=ocr)
+        results = process_tables(figures, results, self.molnextr, batch_size=batch_size)
         results_coref = self.extract_molecule_corefs_from_figures_in_pdf(pdf, num_pages=num_pages)
-        results = replace_rgroups_in_figure(figures, results, results_coref, self.molscribe, batch_size=batch_size)
-        results = expand_reactions_with_backout(results, results_coref, self.molscribe)
+        results = replace_rgroups_in_figure(figures, results, results_coref, self.molnextr, batch_size=batch_size)
+        results = expand_reactions_with_backout(results, results_coref, self.molnextr)
         return results
 
     def extract_reactions_from_pdf(self, pdf, num_pages=None, batch_size=16):
@@ -733,12 +733,12 @@ class ChemIEToolkit:
         """
         figures = self.extract_figures_from_pdf(pdf, num_pages=num_pages, output_bbox=True)
         images = [figure['figure']['image'] for figure in figures]
-        results = self.extract_reactions_from_figures(images, batch_size=batch_size, molscribe=True, ocr=True)
-        table_expanded_results = process_tables(figures, results, self.molscribe, batch_size=batch_size)
+        results = self.extract_reactions_from_figures(images, batch_size=batch_size, molnextr=True, ocr=True)
+        table_expanded_results = process_tables(figures, results, self.molnextr, batch_size=batch_size)
         text_results = self.extract_reactions_from_text_in_pdf(pdf, num_pages=num_pages)
         results_coref = self.extract_molecule_corefs_from_figures_in_pdf(pdf, num_pages=num_pages)
-        figure_results = replace_rgroups_in_figure(figures, table_expanded_results, results_coref, self.molscribe, batch_size=batch_size)
-        table_expanded_results = expand_reactions_with_backout(figure_results, results_coref, self.molscribe)
+        figure_results = replace_rgroups_in_figure(figures, table_expanded_results, results_coref, self.molnextr, batch_size=batch_size)
+        table_expanded_results = expand_reactions_with_backout(figure_results, results_coref, self.molnextr)
         coref_expanded_results = associate_corefs(text_results, results_coref)
         return {
             'figures': table_expanded_results,
