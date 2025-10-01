@@ -148,7 +148,7 @@ class ChemIEToolkit:
             ckpt_path: path to checkpoint to use, if None then will use default
         """
         if ckpt_path is None:
-            ckpt_path = hf_hub_download("Ozymandias314/ChemNERckpt", "best.ckpt")
+            ckpt_path = hf_hub_download("CYF200127/ChemEAGLEModel", "ner.ckpt")
         self._chemner = ChemNER(ckpt_path, device=self.device)
 
     
