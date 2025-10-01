@@ -214,7 +214,7 @@ def get_cached_raw_results(image_path: str):
     if image_path not in _raw_results_cache:
         #print(f"[get_cached_raw_results] Processing image: {image_path}")
         _raw_results_cache[image_path] = get_reaction_withatoms_correctR(image_path)
-        ###############################_raw_results_cache[image_path]= model1.predict_image_file(image_path, molscribe=True, ocr=True)####################################################################
+        ###############################_raw_results_cache[image_path]= model1.predict_image_file(image_path, molnextr=True, ocr=True)####################################################################
     return _raw_results_cache[image_path]
 
 
@@ -263,7 +263,7 @@ def get_reaction_full(image_path: str) -> dict:
     including only reactants, conditions, and products with their smiles, bbox, or text.
     '''
     image_file = image_path
-    raw_prediction = model1.predict_image_file(image_file, molscribe=True, ocr=True)
+    raw_prediction = model1.predict_image_file(image_file, molnextr=True, ocr=True)
     #raw_prediction = get_reaction_withatoms_correctR(image_path)
     return raw_prediction
 
@@ -274,7 +274,7 @@ def get_full_reaction(image_path: str) -> dict:
     '''
     image = Image.open(image_path).convert('RGB')
     image_file = image_path
-    raw_prediction = model1.predict_image_file(image_file, molscribe=True, ocr=True)
+    raw_prediction = model1.predict_image_file(image_file, molnextr=True, ocr=True)
     ####################raw_prediction = get_reaction_withatoms_correctR(image_path)###############################################################################################
     for reaction in raw_prediction:
         for section in ("reactants", "products", "conditions"):
@@ -550,7 +550,7 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
     #p#print.p#print(smiles_details)
 
         # 整理反应数据
-    backed_out = utils.backout_without_coref(reaction_results, coref_results, gpt_output, smiles_details, model.molscribe)
+    backed_out = utils.backout_without_coref(reaction_results, coref_results, gpt_output, smiles_details, model.molnextr)
     backed_out.sort(key=lambda x: x[2])
     extracted_rxns = {}
     for reactants, products_, label in backed_out:
