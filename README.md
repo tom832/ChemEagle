@@ -58,7 +58,7 @@ conda activate chemeagle
 ```
 pip install -r requirements.txt
 ```
-3. Download the necessary [models](https://huggingface.co/datasets/CYF200127/ChemEagle/tree/main) and put in the main path.
+3. Download the necessary [models](https://huggingface.co/CYF200127/ChemEAGLEModel/tree/main) and put in the main path.
 
 4. Set up your Azure OpenAI API key in your environment. Here are two detailed tutorials ([Chinese Version](https://zhuanlan.zhihu.com/p/678367436), [English Version](https://www.datacamp.com/tutorial/azure-openai)) on how to obtain the Azure OpenAI API key and endpoint (Remember to use the API key and the endpoint in the Azure AI Studio).
 ```
