@@ -21,11 +21,6 @@ import easyocr
 class RxnIM:
 
     def __init__(self, model_path, device=None):
-        """
-        RxnScribe Interface
-        :param model_path: path of the model checkpoint.
-        :param device: torch device, defaults to be CPU.
-        """
         args = self._get_args()
         args.format = 'reaction'
         states = torch.load(model_path, map_location=torch.device('cpu'))
@@ -170,11 +165,6 @@ class RxnIM:
 class MolDetect:
 
     def __init__(self, model_path, device = None, coref = False):
-        """
-        MolDetect Interface
-        :param model_path: path of the model checkpoint. 
-        :param device: torch device, defaults to be CPU.
-        """
         args = self._get_args()
         if not coref: args.format = 'bbox'
         else: args.format = 'coref'
