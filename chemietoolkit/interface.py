@@ -20,7 +20,7 @@ class ChemIEToolkit:
             self.device = torch.device(device)
 
         self._molscribe = None
-        self._rxnscribe = None
+        self._rxnim = None
         self._pdfparser = None
         self._moldet = None
         self._chemrxnextractor = None
@@ -46,13 +46,13 @@ class ChemIEToolkit:
     
 
     @property
-    def rxnscribe(self):
-        if self._rxnscribe is None:
-            self.init_rxnscribe()
-        return self._rxnscribe
+    def rxnim(self):
+        if self._rxnim is None:
+            self.init_rxnim()
+        return self._rxnim
 
     @lru_cache(maxsize=None)
-    def init_rxnscribe(self, ckpt_path=None):
+    def init_rxnim(self, ckpt_path=None):
         """
         Set model to custom checkpoint
         Parameters:
@@ -60,7 +60,7 @@ class ChemIEToolkit:
         """
         if ckpt_path is None:
             ckpt_path = hf_hub_download("yujieq/RxnScribe", "pix2seq_reaction_full.ckpt")
-        self._rxnscribe = RxnIM(ckpt_path, device=self.device)
+        self._rxnim = RxnIM(ckpt_path, device=self.device)
     
 
     @property
@@ -496,7 +496,7 @@ class ChemIEToolkit:
         """
         pil_figures = [convert_to_pil(figure) for figure in figures]
         results = []
-        reactions = self.rxnscribe.predict_images(pil_figures, batch_size=batch_size, molscribe=molscribe, ocr=ocr)
+        reactions = self.rxnim.predict_images(pil_figures, batch_size=batch_size, molscribe=molscribe, ocr=ocr)
         for figure, rxn in zip(figures, reactions):
             data = {
                 'figure': figure,
