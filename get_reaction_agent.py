@@ -38,7 +38,7 @@ def get_reaction(image_path: str) -> dict:
     including reactants, conditions, and products, with their smiles, text, and bbox.
     '''
     image_file = image_path
-    raw_prediction = model1.predict_image_file(image_file, molscribe=True, ocr=True)
+    raw_prediction = model1.predict_image_file(image_file, molnextr=True, ocr=True)
 
     # Ensure raw_prediction is treated as a list directly
     structured_output = {}
@@ -73,7 +73,7 @@ def get_full_reaction(image_path: str) -> dict:
     including reactants, conditions, and products, with their smiles, text, and bbox.
     '''
     image_file = image_path
-    raw_prediction = model1.predict_image_file(image_file, molscribe=True, ocr=True)
+    raw_prediction = model1.predict_image_file(image_file, molnextr=True, ocr=True)
     for reaction in raw_prediction:
         for section in ("reactants", "products", "conditions"):
             for entry in reaction.get(section, []):
@@ -257,7 +257,7 @@ def get_reaction_withatoms(image_path: str) -> dict:
         including reactants, conditions, and products, with their smiles, text, and bbox.
         '''
         image_file = image_path
-        raw_prediction = model1.predict_image_file(image_file, molscribe=True, ocr=True)
+        raw_prediction = model1.predict_image_file(image_file, molnextr=True, ocr=True)
         return raw_prediction
     
     input2 = get_reaction_full(image_path)
@@ -474,7 +474,7 @@ def get_reaction_withatoms_correctR(image_path: str) -> dict:
         including reactants, conditions, and products, with their smiles, text, and bbox.
         '''
         image_file = image_path
-        raw_prediction = model1.predict_image_file(image_file, molscribe=True, ocr=True)
+        raw_prediction = model1.predict_image_file(image_file, molnextr=True, ocr=True)
         return raw_prediction
     
     input2 = get_reaction_full(image_path)
