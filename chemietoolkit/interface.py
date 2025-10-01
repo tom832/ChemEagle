@@ -5,7 +5,7 @@ import layoutparser as lp
 import pdf2image
 from PIL import Image
 from huggingface_hub import hf_hub_download, snapshot_download
-from molnextr import MolScribe
+from molnextr import MolNexTR
 from rxnim import RxnIM, MolDetect
 from chemiener import ChemNER
 from .chemrxnextractor import ChemRxnExtractor
@@ -42,7 +42,7 @@ class ChemIEToolkit:
         """
         if ckpt_path is None:
             ckpt_path = hf_hub_download("yujieq/MolScribe", "swin_base_char_aux_1m680k.pth")
-        self._molscribe = MolScribe(ckpt_path, device=self.device)
+        self._molscribe = MolNexTR(ckpt_path, device=self.device)
     
 
     @property
