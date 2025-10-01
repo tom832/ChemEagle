@@ -26,7 +26,7 @@ import os
 
 
 
-ckpt_path = "./pix2seq_reaction_full.ckpt"
+ckpt_path = "./rxn.ckpt"
 model1 = RxnIM(ckpt_path, device=torch.device('cpu'))
 device = torch.device('cpu')
 model = ChemIEToolkit(device=torch.device('cpu'))
