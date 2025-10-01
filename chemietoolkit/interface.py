@@ -6,7 +6,7 @@ import pdf2image
 from PIL import Image
 from huggingface_hub import hf_hub_download, snapshot_download
 from molnextr import MolScribe
-from rxnim import RxnScribe, MolDetect
+from rxnim import RxnIM, MolDetect
 from chemiener import ChemNER
 from .chemrxnextractor import ChemRxnExtractor
 from .tableextractor import TableExtractor
@@ -60,7 +60,7 @@ class ChemIEToolkit:
         """
         if ckpt_path is None:
             ckpt_path = hf_hub_download("yujieq/RxnScribe", "pix2seq_reaction_full.ckpt")
-        self._rxnscribe = RxnScribe(ckpt_path, device=self.device)
+        self._rxnscribe = RxnIM(ckpt_path, device=self.device)
     
 
     @property
