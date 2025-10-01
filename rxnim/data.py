@@ -450,13 +450,13 @@ def deduplicate_reactions(reactions):
     return pred_reactions.to_json()
 
 
-def postprocess_reactions(reactions, image_file=None, image=None, molscribe=None, ocr=None, batch_size=32):
+def postprocess_reactions(reactions, image_file=None, image=None, molnextr=None, ocr=None, batch_size=32):
     image_data = ReactionImageData(predictions=reactions, image_file=image_file, image=image)
     pred_reactions = image_data.pred_reactions
     for r in pred_reactions:
         r.deduplicate()
     pred_reactions.deduplicate()
-    if molscribe:
+    if molnextr:
         bbox_images, bbox_indices = [], []
         for i, reaction in enumerate(pred_reactions):
             for j, bbox in enumerate(reaction.bboxes):
@@ -464,7 +464,7 @@ def postprocess_reactions(reactions, image_file=None, image=None, molscribe=None
                     bbox_images.append(bbox.image())
                     bbox_indices.append((i, j))
         if len(bbox_images) > 0:
-            predictions = molscribe.predict_images(bbox_images, return_atoms_bonds=True, batch_size=batch_size)
+            predictions = molnextr.predict_images(bbox_images, return_atoms_bonds=True, batch_size=batch_size)
 
             for (i, j), pred in zip(bbox_indices, predictions):
                 pred_reactions[i].bboxes[j].set_smiles(pred['smiles'],pred["symbols"], pred["coords"],pred["edges"],pred['molfile'],pred['atoms'], pred['bonds'])
@@ -477,14 +477,14 @@ def postprocess_reactions(reactions, image_file=None, image=None, molscribe=None
                     bbox.set_text(text)
     return pred_reactions.to_json()
 
-def postprocess_bboxes(bboxes, image = None, molscribe = None, batch_size = 32):
+def postprocess_bboxes(bboxes, image = None, molnextr = None, batch_size = 32):
     image_d = ImageData(image = image)
     bbox_objects = [BBox(bbox = bbox, image_data = image_d, xyxy = True, normalized = True) for bbox in bboxes]
     bbox_objects_no_empty = [bbox for bbox in bbox_objects if not bbox.is_empty]
     #deduplicate
     deduplicated = deduplicate_bboxes(bbox_objects_no_empty)
 
-    if molscribe:
+    if molnextr:
         bbox_images, bbox_indices = [], []
 
         for i, bbox in enumerate(deduplicated):
@@ -493,17 +493,17 @@ def postprocess_bboxes(bboxes, image = None, molscribe = None, batch_size = 32):
                 bbox_indices.append(i)
         
         if len(bbox_images) > 0:
-            predictions = molscribe.predict_images(bbox_images, return_atoms_bonds=True, batch_size = batch_size)
+            predictions = molnextr.predict_images(bbox_images, return_atoms_bonds=True, batch_size = batch_size)
 
             for i, pred in zip(bbox_indices, predictions):
                 #deduplicated[i].set_smiles(pred['smiles'], pred["original_symbols"],pred['molfile'],pred['atoms'], pred['bonds'])
                 deduplicated[i].set_smiles(pred['smiles'],pred["symbols"], pred["coords"],pred["edges"],pred['molfile'],pred['atoms'], pred['bonds'])
     return [bbox.to_json() for bbox in deduplicated]
 
-def postprocess_coref_results(bboxes, image, molscribe = None, ocr = None, batch_size = 32):
+def postprocess_coref_results(bboxes, image, molnextr = None, ocr = None, batch_size = 32):
     image_d = ImageData(image = cv2.resize(np.asarray(image), None, fx=3, fy=3))
     bbox_objects = [BBox(bbox = bbox, image_data = image_d, xyxy = True, normalized = True) for bbox in bboxes['bboxes']]
-    if molscribe:
+    if molnextr:
         
         bbox_images, bbox_indices = [], []
 
@@ -513,7 +513,7 @@ def postprocess_coref_results(bboxes, image, molscribe = None, ocr = None, batch
                 bbox_indices.append(i)
         
         if len(bbox_images) > 0:
-            predictions = molscribe.predict_images(bbox_images, return_atoms_bonds=True, batch_size = batch_size)
+            predictions = molnextr.predict_images(bbox_images, return_atoms_bonds=True, batch_size = batch_size)
 
             for i, pred in zip(bbox_indices, predictions):
                 bbox_objects[i].set_smiles(pred['smiles'],pred["symbols"], pred["coords"],pred["edges"],pred['molfile'],pred['atoms'], pred['bonds'])
