@@ -80,7 +80,7 @@ def convert_to_cv2(image):
         image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
     return image
 
-def replace_rgroups_in_figure(figures, results, coref_results, molscribe, batch_size=16):
+def replace_rgroups_in_figure(figures, results, coref_results, molnextr, batch_size=16):
     pattern = re.compile('(?P<name>[RXY]\d?)[ ]*=[ ]*(?P<group>\w+)')
     for figure, result, corefs in zip(figures, results, coref_results):
         r_groups = []
@@ -100,7 +100,7 @@ def replace_rgroups_in_figure(figures, results, coref_results, molscribe, batch_
         if r_groups and result['reactions']:
             seen_r_groups = set([pair[0] for pair in seen_r_groups])
             orig_reaction = result['reactions'][0]
-            graphs = get_atoms_and_bonds(figure['figure']['image'], orig_reaction, molscribe, batch_size=batch_size)
+            graphs = get_atoms_and_bonds(figure['figure']['image'], orig_reaction, molnextr, batch_size=batch_size)
             relevant_locs = {}
             for i, graph in enumerate(graphs):
                 to_add = []
@@ -110,7 +110,7 @@ def replace_rgroups_in_figure(figures, results, coref_results, molscribe, batch_
                 relevant_locs[i] = to_add
 
             for r_group in r_groups:
-                reaction = get_replaced_reaction(orig_reaction, graphs, relevant_locs, r_group, molscribe)
+                reaction = get_replaced_reaction(orig_reaction, graphs, relevant_locs, r_group, molnextr)
                 to_add ={
                     'reactants': reaction['reactants'][:],
                     'conditions': orig_reaction['conditions'][:],
@@ -119,7 +119,7 @@ def replace_rgroups_in_figure(figures, results, coref_results, molscribe, batch_
                 result['reactions'].append(to_add)
     return results
 
-def process_tables(figures, results, molscribe, batch_size=16):
+def process_tables(figures, results, molnextr, batch_size=16):
     r_group_pattern = re.compile(r'^(\w+-)?(?P<group>[\w-]+)( \(\w+\))?$')
     for figure, result in zip(figures, results):
         result['page'] = figure['page']
@@ -130,7 +130,7 @@ def process_tables(figures, results, molscribe, batch_size=16):
             elif len(result['reactions']) == 0:
                 continue
             orig_reaction = result['reactions'][0]
-            graphs = get_atoms_and_bonds(figure['figure']['image'], orig_reaction, molscribe, batch_size=batch_size)
+            graphs = get_atoms_and_bonds(figure['figure']['image'], orig_reaction, molnextr, batch_size=batch_size)
             relevant_locs = find_relevant_groups(graphs, content['columns'])
             conditions_to_extend = []
             for row in content['rows']:
@@ -150,7 +150,7 @@ def process_tables(figures, results, molscribe, batch_size=16):
                         if found is not None:
                             r_groups[col['text']] = found.group('group')
                             replaced = True
-                reaction = get_replaced_reaction(orig_reaction, graphs, relevant_locs, r_groups, molscribe)  
+                reaction = get_replaced_reaction(orig_reaction, graphs, relevant_locs, r_groups, molnextr)  
                 if replaced:
                     to_add = {
                         'reactants': reaction['reactants'][:],
@@ -165,7 +165,7 @@ def process_tables(figures, results, molscribe, batch_size=16):
     return results
 
 
-def get_atoms_and_bonds(image, reaction, molscribe, batch_size=16):
+def get_atoms_and_bonds(image, reaction, molnextr, batch_size=16):
     image = convert_to_cv2(image)
     cropped_images = []
     results = []
@@ -186,7 +186,7 @@ def get_atoms_and_bonds(image, reaction, molscribe, batch_size=16):
                 'key': (key, i)
             }
             results.append(to_add)
-    outputs = molscribe.predict_images(cropped_images, return_atoms_bonds=True, batch_size=batch_size)
+    outputs = molnextr.predict_images(cropped_images, return_atoms_bonds=True, batch_size=batch_size)
     for mol, result in zip(outputs, results):
         for atom in mol['atoms']:
             result['chartok_coords']['coords'].append((atom['x'], atom['y']))
@@ -209,7 +209,7 @@ def find_relevant_groups(graphs, columns):
         results[i] = to_add
     return results
 
-def get_replaced_reaction(orig_reaction, graphs, relevant_locs, mappings, molscribe):
+def get_replaced_reaction(orig_reaction, graphs, relevant_locs, mappings, molnextr):
     graph_copy = []
     for graph in graphs:
         graph_copy.append({
@@ -246,7 +246,7 @@ def get_replaced_reaction(orig_reaction, graphs, relevant_locs, mappings, molscr
                 append_copy(reaction_copy[k], entity)
 
     for graph in graph_copy:
-        output = molscribe.convert_graph_to_output([graph], [graph['image']])
+        output = molnextr.convert_graph_to_output([graph], [graph['image']])
         molecule = reaction_copy[graph['key'][0]][graph['key'][1]]
         molecule['smiles'] = output[0]['smiles']
         molecule['molfile'] = output[0]['molfile']
@@ -345,7 +345,7 @@ def clean_corefs(coref_results_dict, idx):
 
 
 
-def expand_r_group_label_helper(res, coref_smiles_to_graphs, other_prod, molscribe):
+def expand_r_group_label_helper(res, coref_smiles_to_graphs, other_prod, molnextr):
     name = res.group('name')
     group = res.group('group')
     #print(other_prod)
@@ -376,7 +376,7 @@ def expand_r_group_label_helper(res, coref_smiles_to_graphs, other_prod, molscri
             graph['chartok_coords']['symbols'][i] = group
 
     #print(graph)
-    o = molscribe.convert_graph_to_output([graph], [graph['image']])
+    o = molnextr.convert_graph_to_output([graph], [graph['image']])
     return Chem.MolFromSmiles(o[0]['smiles'])
 
 def get_r_group_frags_and_substitute(other_prod_mol, query, reactant_mols, reactant_information, parsed, toreturn):
@@ -515,7 +515,7 @@ def generate_subsets(n):
     backtrack(n - 1, [])
     return sorted(result, key=lambda x: (-len(x), x), reverse=True)
 
-def backout(results, coref_results, molscribe):
+def backout(results, coref_results, molnextr):
 
     toreturn = []
 
@@ -699,7 +699,7 @@ def backout(results, coref_results, molscribe):
                             res = r_group_sub_pattern.search(parsed_labels)
 
                             if res is not None:
-                                all_other_prod_mols.append((expand_r_group_label_helper(res, coref_smiles_to_graphs, other_prod, molscribe), parsed + parsed_labels))
+                                all_other_prod_mols.append((expand_r_group_label_helper(res, coref_smiles_to_graphs, other_prod, molnextr), parsed + parsed_labels))
                         
                         if len(all_other_prod_mols) == 0:
                             if other_prod_mol is not None:
@@ -738,7 +738,7 @@ def backout(results, coref_results, molscribe):
     return toreturn
 
 
-def backout_without_coref(results, coref_results, coref_results_dict, coref_smiles_to_graphs, molscribe):
+def backout_without_coref(results, coref_results, coref_results_dict, coref_smiles_to_graphs, molnextr):
 
     toreturn = []
 
@@ -919,7 +919,7 @@ def backout_without_coref(results, coref_results, coref_results_dict, coref_smil
                             res = r_group_sub_pattern.search(parsed_labels)
 
                             if res is not None:
-                                all_other_prod_mols.append((expand_r_group_label_helper(res, coref_smiles_to_graphs, other_prod, molscribe), parsed + parsed_labels))
+                                all_other_prod_mols.append((expand_r_group_label_helper(res, coref_smiles_to_graphs, other_prod, molnextr), parsed + parsed_labels))
                         
                         if len(all_other_prod_mols) == 0:
                             if other_prod_mol is not None:
@@ -994,13 +994,13 @@ def associate_corefs(results, results_coref):
     return results
 
 
-def expand_reactions_with_backout(initial_results, results_coref, molscribe): 
+def expand_reactions_with_backout(initial_results, results_coref, molnextr): 
     idx_pattern = r'^\d+[a-zA-Z]{0,2}$'
     for reactions, result_coref in zip(initial_results, results_coref):
         if not reactions['reactions']:
             continue
         try:
-            backout_results = backout([reactions], [result_coref], molscribe)
+            backout_results = backout([reactions], [result_coref], molnextr)
         except Exception:
             continue
         conditions = reactions['reactions'][0]['conditions']
