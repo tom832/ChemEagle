@@ -94,7 +94,7 @@ class ChemIEToolkit:
             ckpt_path: path to checkpoint to use, if None then will use default
         """
         if ckpt_path is None:
-            ckpt_path = hf_hub_download("Ozymandias314/MolDetectCkpt", "best_hf.ckpt")
+            ckpt_path = hf_hub_download("CYF200127/ChemEAGLEModel", "moldet.ckpt")
         self._moldet = MolDetect(ckpt_path, device=self.device)
         
 
@@ -112,7 +112,7 @@ class ChemIEToolkit:
             ckpt_path: path to checkpoint to use, if None then will use default
         """
         if ckpt_path is None:
-            ckpt_path = hf_hub_download("Ozymandias314/MolDetectCkpt", "coref_best_hf.ckpt")
+            ckpt_path = hf_hub_download("CYF200127/ChemEAGLEModel", "corefdet.ckpt")
         self._coref = MolDetect(ckpt_path, device=self.device, coref=True)
 
 
