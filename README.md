@@ -83,7 +83,7 @@ Benchmark datasets, predictions, and ground truth can be found in our [Huggingfa
 Go to our [ChemEAGLE.Web app demo](https://huggingface.co/spaces/CYF200127/ChemEagle) to directly use our tool online!
 
 When the input is a multimodal chemical reaction graphic:
-![visualization](examples/1.png)
+![visualization](examples/reaction9.png)
 <div align="center",width="100">
 </div> 
 
