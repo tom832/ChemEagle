@@ -41,7 +41,7 @@ class ChemIEToolkit:
             ckpt_path: path to checkpoint to use, if None then will use default
         """
         if ckpt_path is None:
-            ckpt_path = hf_hub_download("yujieq/MolScribe", "swin_base_char_aux_1m680k.pth")
+            ckpt_path = hf_hub_download("CYF200127/ChemEAGLEModel", "molnextr.pth")
         self._molscribe = MolNexTR(ckpt_path, device=self.device)
     
 
