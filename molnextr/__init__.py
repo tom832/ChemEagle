@@ -1,1 +1,1 @@
-from .interface import MolScribe
+from .interface import MolNexTR
