@@ -76,7 +76,7 @@ print(results)
 ```
 
 ### Benchmarking
-All benchmark datasets, predictions, and ground truth can be found in our [Huggingface Repo](https://huggingface.co/datasets/CYF200127/ChemEagle/blob/main/Dataset.zip).
+Benchmark datasets, predictions, and ground truth can be found in our [Huggingface Repo](https://huggingface.co/datasets/CYF200127/ChemEagle/blob/main/Dataset.zip).
 
 ## 🤗 Chemical information extraction using [ChemEAGLE.Web](https://huggingface.co/spaces/CYF200127/ChemEagle) 
 
