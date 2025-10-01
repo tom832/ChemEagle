@@ -10,12 +10,12 @@ import json
 from get_molecular_agent import process_reaction_image_with_multiple_products_and_text_correctR, process_reaction_image_with_multiple_products_and_text_correctmultiR
 from get_reaction_agent import get_reaction_withatoms_correctR
 import sys
-from rxnim import RxnScribe
+from rxnim import RxnIM
 import json
 import base64
 model = ChemIEToolkit(device=torch.device('cpu')) 
 ckpt_path = "./pix2seq_reaction_full.ckpt"
-model1 = RxnScribe(ckpt_path, device=torch.device('cpu'))
+model1 = RxnIM(ckpt_path, device=torch.device('cpu'))
 device = torch.device('cpu')
 import base64
 import torch
