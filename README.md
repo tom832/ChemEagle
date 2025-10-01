@@ -113,7 +113,7 @@ The input can be any chemical graphics; feel free to try more examples!
 
 ![visualization](examples/reaction5.png)
 ![visualization](examples/reaction6.png)
-![visualization](examples/reaction1.png)
+![visualization](examples/reaction1.jpg)
 ![visualization](examples/reaction2.png)
 ![visualization](examples/reaction4.png)
 
