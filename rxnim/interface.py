@@ -18,7 +18,7 @@ from huggingface_hub import hf_hub_download
 import easyocr
 
 
-class RxnScribe:
+class RxnIM:
 
     def __init__(self, model_path, device=None):
         """
