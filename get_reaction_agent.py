@@ -6,9 +6,8 @@ import cv2
 from PIL import Image
 import json
 import sys
-#sys.path.append('./RxnScribe-main/')
 import torch
-from rxnim import RxnScribe
+from rxnim import RxnIM
 import json
 from molnextr.chemistry import _convert_graph_to_smiles
 
@@ -22,7 +21,7 @@ import os
 
 
 ckpt_path = "./pix2seq_reaction_full.ckpt"
-model1 = RxnScribe(ckpt_path, device=torch.device('cpu'))
+model1 = RxnIM(ckpt_path, device=torch.device('cpu'))
 device = torch.device('cpu')
 model = ChemIEToolkit(device=torch.device('cpu')) 
 
