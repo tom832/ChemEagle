@@ -23,15 +23,9 @@ def safe_load(module, module_states):
     return
 
 
-class MolScribe:
+class MolNexTR:
 
     def __init__(self, model_path, device=None, num_workers=1):
-        """
-        MolScribe Interface
-        :param model_path: path of the model checkpoint.
-        :param device: torch device, defaults to be CPU.
-        :param multiprocessing_enabled: uses multiprocessing to parallelize parts of the inference when enabled, defaults to False.
-        """
         model_states = torch.load(model_path, map_location=torch.device('cpu'))
         args = self._get_args(model_states['args'])
         if device is None:
