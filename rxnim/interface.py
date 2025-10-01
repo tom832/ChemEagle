@@ -13,7 +13,7 @@ from .tokenizer import get_tokenizer
 from .dataset import make_transforms
 from .data import postprocess_reactions, postprocess_bboxes, postprocess_coref_results, ReactionImageData, ImageData, CorefImageData
 
-from molnextr import MolScribe
+from molnextr import MolNexTR
 from huggingface_hub import hf_hub_download
 import easyocr
 
@@ -77,7 +77,7 @@ class RxnIM:
 
     def get_molscribe(self):
         ckpt_path = hf_hub_download("yujieq/MolScribe", "swin_base_char_aux_1m680k.pth")
-        molscribe = MolScribe(ckpt_path, device=self.device)
+        molscribe = MolNexTR(ckpt_path, device=self.device)
         return molscribe
 
     def get_ocr_model(self):
@@ -223,7 +223,7 @@ class MolDetect:
 
     def get_molscribe(self): 
         ckpt_path = hf_hub_download("yujieq/MolScribe", "swin_base_char_aux_1m680k.pth")
-        molscribe = MolScribe(ckpt_path, device=self.device)
+        molscribe = MolNexTR(ckpt_path, device=self.device)
         return molscribe
 
     def get_ocr_model(self):
