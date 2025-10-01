@@ -113,7 +113,9 @@ The input can be any chemical graphics; feel free to try more examples!
 
 ![visualization](examples/reaction5.png)
 ![visualization](examples/reaction6.png)
-![visualization](examples/reaction7.png)
+![visualization](examples/reaction1.png)
+![visualization](examples/reaction2.png)
+![visualization](examples/reaction4.png)
 
 ## :warning: Acknowledgement
 1. In our experiments, we observed that GPT-4o outputs can differ across API versions and endpoints. We use api_version="2024-06-01" with the HKUST Azure OpenAI endpoint as our official version.
