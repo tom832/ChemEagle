@@ -20,69 +20,43 @@ AZURE_ENDPOINT = os.getenv("AZURE_ENDPOINT")
 API_VERSION = os.getenv("API_VERSION")
 
 def merge_sentences(sentences):
-    """
-    合并一个句子片段列表为一个连贯的段落字符串。
-    """
-    # 去除每条片段前后空白，并剔除空串
+
     cleaned = [s.strip() for s in sentences if s.strip()]
-    # 用空格拼接，恢复成完整段落
     paragraph = [" ".join(cleaned)]
     return paragraph
 
 
 def extract_reactions_from_text_in_image(image_path: str) -> dict:
-    """
-    从化学反应图像中提取文本并识别反应。
 
-    参数：
-      image_path: 图像文件路径
 
-    返回：
-      {
-        'raw_text': OCR 提取的完整文本（str),
-        'paragraph': 合并后的段落文本 (str),
-        'reactions': RxnExtractor 输出的反应列表 (list)
-      }
-    """
-    # 模型目录和设备参数（可按需修改）
     model_dir = "./cre_models_v0.1"
     device = "cpu"
 
-    # 1. OCR 提取文本
     img = Image.open(image_path)
     raw_text = pytesseract.image_to_string(img)
 
-    # 2. 将多行文本合并为单段落
     lines = [line.strip() for line in raw_text.splitlines() if line.strip()]
     paragraph = " ".join(lines)
 
-    # 3. 初始化化学反应提取器
     use_cuda = (device.lower() == "cuda")
     rxn_extractor = RxnExtractor(model_dir, use_cuda=use_cuda)
-
-    # 4. 提取反应（注意 get_reactions 需要列表输入）
+）
     reactions = rxn_extractor.get_reactions([paragraph])
 
     return reactions 
 
 def NER_from_text_in_image(image_path: str) -> dict:
-    # 模型目录和设备参数（可按需修改）
     model_dir = "./cre_models_v0.1"
     device = "cpu"
 
-    # 1. OCR 提取文本
     img = Image.open(image_path)
     raw_text = pytesseract.image_to_string(img)
 
-    # 2. 将多行文本合并为单段落
     lines = [line.strip() for line in raw_text.splitlines() if line.strip()]
     paragraph = " ".join(lines)
-
-    # 3. 初始化化学反应提取器
     use_cuda = (device.lower() == "cuda")
     rxn_extractor = RxnExtractor(model_dir, use_cuda=use_cuda)
-
-    # 4. 提取反应（注意 get_reactions 需要列表输入）
+）
     predictions = model2.predict_strings([paragraph])
 
     return predictions 
