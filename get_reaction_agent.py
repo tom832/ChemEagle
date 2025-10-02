@@ -129,7 +129,6 @@ def get_reaction_withatoms(image_path: str) -> dict:
             },
     ]
 
-    # 提供给 GPT 的消息内容
     with open('./prompt/prompt_getreaction.txt', 'r') as prompt_file:
         prompt = prompt_file.read()
     messages = [
@@ -143,7 +142,6 @@ def get_reaction_withatoms(image_path: str) -> dict:
         }
     ]
 
-    # 调用 GPT 接口
     response = client.chat.completions.create(
     model = 'gpt-4o',
     temperature = 0,
@@ -167,16 +165,13 @@ def get_reaction_withatoms(image_path: str) -> dict:
     ],
     tools = tools)
     
-# Step 1: 工具映射表
     TOOL_MAP = {
         'get_reaction': get_reaction,
     }
 
-    # Step 2: 处理多个工具调用
     tool_calls = response.choices[0].message.tool_calls
     results = []
 
-    # 遍历每个工具调用
     for tool_call in tool_calls:
         tool_name = tool_call.function.name
         tool_arguments = tool_call.function.arguments
@@ -190,7 +185,6 @@ def get_reaction_withatoms(image_path: str) -> dict:
         else:
             raise ValueError(f"Unknown tool called: {tool_name}")
         
-        # 保存每个工具调用结果
         results.append({
             'role': 'tool',
             'content': json.dumps({
@@ -236,7 +230,6 @@ def get_reaction_withatoms(image_path: str) -> dict:
 
 
     
-    # 获取 GPT 生成的结果
     gpt_output = json.loads(response.choices[0].message.content)
     #print(f"gpt_output1:{gpt_output}")
 
@@ -258,19 +251,17 @@ def get_reaction_withatoms(image_path: str) -> dict:
         symbol_mapping = {}
         for key in ['reactants', 'products']:
             for item in input1.get(key, []):
-                bbox = tuple(item['bbox'])  # 使用 bbox 作为唯一标识
+                bbox = tuple(item['bbox']) 
                 symbol_mapping[bbox] = item['symbols']
 
         for key in ['reactants', 'products']:
             for item in input2.get(key, []):
                 bbox = tuple(item['bbox'])  # 获取 bbox 作为匹配键
 
-                # 如果 bbox 存在于 input1 的映射中，则更新 symbols
                 if bbox in symbol_mapping:
                     updated_symbols = symbol_mapping[bbox]
                     item['symbols'] = updated_symbols
                     
-                    # 更新 atoms 的 atom_symbol
                     if 'atoms' in item:
                         atoms = item['atoms']
                         if len(atoms) != len(updated_symbols):
@@ -279,7 +270,6 @@ def get_reaction_withatoms(image_path: str) -> dict:
                             for atom, symbol in zip(atoms, updated_symbols):
                                 atom['atom_symbol'] = symbol
                     
-                    # 如果 coords 和 edges 存在，调用转换函数生成新的 smiles 和 molfile
                     if 'coords' in item and 'edges' in item:
                         coords = item['coords']
                         edges = item['edges']
@@ -306,7 +296,6 @@ def get_reaction_withatoms_correctR(image_path: str) -> dict:
         azure_endpoint=AZURE_ENDPOINT
     )
 
-    # 加载图像并编码为 Base64
     def encode_image(image_path: str):
         with open(image_path, "rb") as image_file:
             return base64.b64encode(image_file.read()).decode('utf-8')
@@ -334,7 +323,6 @@ def get_reaction_withatoms_correctR(image_path: str) -> dict:
             },
     ]
 
-    # 提供给 GPT 的消息内容
     with open('./prompt/prompt_getreaction_correctR.txt', 'r') as prompt_file:
         prompt = prompt_file.read()
     messages = [
@@ -348,7 +336,6 @@ def get_reaction_withatoms_correctR(image_path: str) -> dict:
         }
     ]
 
-    # 调用 GPT 接口
     response = client.chat.completions.create(
     model = 'gpt-4o',
     temperature = 0,
@@ -372,16 +359,14 @@ def get_reaction_withatoms_correctR(image_path: str) -> dict:
     ],
     tools = tools)
     
-# Step 1: 工具映射表
     TOOL_MAP = {
         'get_reaction': get_reaction,
     }
 
-    # Step 2: 处理多个工具调用
+
     tool_calls = response.choices[0].message.tool_calls
     results = []
 
-    # 遍历每个工具调用
     for tool_call in tool_calls:
         tool_name = tool_call.function.name
         tool_arguments = tool_call.function.arguments
@@ -390,12 +375,10 @@ def get_reaction_withatoms_correctR(image_path: str) -> dict:
         tool_args = json.loads(tool_arguments)
         
         if tool_name in TOOL_MAP:
-            # 调用工具并获取结果
             tool_result = TOOL_MAP[tool_name](image_path)
         else:
             raise ValueError(f"Unknown tool called: {tool_name}")
         
-        # 保存每个工具调用结果
         results.append({
             'role': 'tool',
             'content': json.dumps({
@@ -441,7 +424,6 @@ def get_reaction_withatoms_correctR(image_path: str) -> dict:
 
 
     
-    # 获取 GPT 生成的结果
     gpt_output = json.loads(response.choices[0].message.content)
     #print(f"gpt_output1:{gpt_output}")
 
@@ -463,19 +445,19 @@ def get_reaction_withatoms_correctR(image_path: str) -> dict:
         symbol_mapping = {}
         for key in ['reactants', 'products']:
             for item in input1.get(key, []):
-                bbox = tuple(item['bbox'])  # 使用 bbox 作为唯一标识
+                bbox = tuple(item['bbox'])  
                 symbol_mapping[bbox] = item['symbols']
 
         for key in ['reactants', 'products']:
             for item in input2.get(key, []):
-                bbox = tuple(item['bbox'])  # 获取 bbox 作为匹配键
+                bbox = tuple(item['bbox']) 
 
-                # 如果 bbox 存在于 input1 的映射中，则更新 symbols
+
                 if bbox in symbol_mapping:
                     updated_symbols = symbol_mapping[bbox]
                     item['symbols'] = updated_symbols
                     
-                    # 更新 atoms 的 atom_symbol
+
                     if 'atoms' in item:
                         atoms = item['atoms']
                         if len(atoms) != len(updated_symbols):
@@ -484,13 +466,13 @@ def get_reaction_withatoms_correctR(image_path: str) -> dict:
                             for atom, symbol in zip(atoms, updated_symbols):
                                 atom['atom_symbol'] = symbol
                     
-                    # 如果 coords 和 edges 存在，调用转换函数生成新的 smiles 和 molfile
+
                     if 'coords' in item and 'edges' in item:
                         coords = item['coords']
                         edges = item['edges']
                         new_smiles, new_molfile, _ = conversion_function(coords, updated_symbols, edges)
                         
-                        # 替换旧的 smiles 和 molfile
+
                         item['smiles'] = new_smiles
                         item['molfile'] = new_molfile
 
