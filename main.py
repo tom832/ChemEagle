@@ -119,7 +119,6 @@ def ChemEagle(image_path: str) -> dict:
             },
     ]
 
-    # 提供给 GPT 的消息内容
     with open('./prompt/prompt_final_simple_version.txt', 'r') as prompt_file:
         prompt = prompt_file.read()
     with open('./prompt/prompt_plan.txt', 'r') as prompt_file:
@@ -136,7 +135,6 @@ def ChemEagle(image_path: str) -> dict:
         }
     ]
 
-    # 调用 GPT 接口
     response = client.chat.completions.create(
     model = 'gpt-4o',
     temperature = 0,
@@ -231,7 +229,6 @@ def ChemEagle(image_path: str) -> dict:
 
 
     
-    # 获取 GPT 生成的结果
     gpt_output = json.loads(response.choices[0].message.content)
     print(gpt_output)
     return gpt_output
