@@ -311,15 +311,6 @@ def get_full_reaction(image_path: str) -> dict:
 
 
 def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict:
-    """
-    输入化学反应图像路径，通过 GPT 模型和 OpenChemIE 提取反应信息并返回整理后的反应数据。
-
-    Args:
-        image_path (str): 图像文件路径。
-
-    Returns:
-        dict: 整理后的反应数据，包括反应物、产物和反应模板。
-    """
  
     client = AzureOpenAI(
         api_key=API_KEY,
