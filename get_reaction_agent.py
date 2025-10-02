@@ -94,16 +94,6 @@ def get_full_reaction(image_path: str) -> dict:
 
 
 def get_reaction_withatoms(image_path: str) -> dict:
-    """
-    输入化学反应图像路径，通过 GPT 模型和 OpenChemIE 提取反应信息并返回整理后的反应数据。
-
-    Args:
-        image_path (str): 图像文件路径。
-
-    Returns:
-        dict: 整理后的反应数据，包括反应物、产物和反应模板。
-    """
-    # 初始化 OpenChemIE 模型和 Azure OpenAI 客户端
     client = AzureOpenAI(
         api_key=API_KEY,
         api_version=API_VERSION,
@@ -309,18 +299,7 @@ def get_reaction_withatoms(image_path: str) -> dict:
 
 
 def get_reaction_withatoms_correctR(image_path: str) -> dict:
-    """
-    输入化学反应图像路径，通过 GPT 模型和 OpenChemIE 提取反应信息并返回整理后的反应数据。
-
-    Args:
-        image_path (str): 图像文件路径。
-
-    Returns:
-        dict: 整理后的反应数据，包括反应物、产物和反应模板。
-    """
-    # 配置 API Key 和 Azure Endpoint
     
-
     client = AzureOpenAI(
         api_key=API_KEY,
         api_version=API_VERSION,
@@ -334,7 +313,6 @@ def get_reaction_withatoms_correctR(image_path: str) -> dict:
 
     base64_image = encode_image(image_path)
 
-    # GPT 工具调用配置
     tools = [
         {
         'type': 'function', 
