@@ -43,7 +43,7 @@ def parse_coref_data_with_fallback(data):
     corefs = data["corefs"]
     paired_indices = set()
 
-    # 先处理有 coref 配对的
+
     results = []
     for idx1, idx2 in corefs:
         smiles_entry = bboxes[idx1] if "smiles" in bboxes[idx1] else bboxes[idx2]
@@ -59,11 +59,11 @@ def parse_coref_data_with_fallback(data):
             "bbox": bbox
         })
 
-        # 记录下哪些 SMILES 被配对过了
+
         paired_indices.add(idx1)
         paired_indices.add(idx2)
 
-    # 处理未配对的 SMILES（补充进来）
+
     for idx, entry in enumerate(bboxes):
         if "smiles" in entry and idx not in paired_indices:
             results.append({
@@ -79,7 +79,7 @@ def parse_coref_data_with_fallback_with_box(data):
     corefs = data["corefs"]
     paired_indices = set()
 
-    # 先处理有 coref 配对的
+
     results = []
     for idx1, idx2 in corefs:
         smiles_entry = bboxes[idx1] if "smiles" in bboxes[idx1] else bboxes[idx2]
@@ -95,11 +95,11 @@ def parse_coref_data_with_fallback_with_box(data):
             "bbox": bboxes
         })
 
-        # 记录下哪些 SMILES 被配对过了
+
         paired_indices.add(idx1)
         paired_indices.add(idx2)
 
-    # 处理未配对的 SMILES（补充进来）
+
     for idx, entry in enumerate(bboxes):
         if "smiles" in entry and idx not in paired_indices:
             results.append({
@@ -118,11 +118,7 @@ def parse_coref_data_with_fallback_with_box(data):
 _process_multi_molecular_cache = {}
 
 def get_cached_multi_molecular(image_path: str):
-    """
-    只会对同一个 image_path 真正调用一次
-    process_reaction_image_with_multiple_products_and_text_correctR
-    并缓存结果。
-    """
+
     image = Image.open(image_path).convert('RGB')
     image = np.array(image)
     
@@ -139,7 +135,7 @@ def get_cached_multi_molecular(image_path: str):
 
 # def get_multi_molecular_text_to_correct(image_path: str) -> list:
 #     '''Returns a list of reactions extracted from the image.'''
-#     # 打开图像文件
+#     
 #     image = Image.open(image_path).convert('RGB')
     
 #     # 将图像作为输入传递给模型
@@ -148,7 +144,7 @@ def get_cached_multi_molecular(image_path: str):
 #     for item in coref_results:
 #         for bbox in item.get("bboxes", []):
 #             for key in ["category", "bbox", "molfile", "symbols", 'atoms', "bonds", 'category_id', 'score', 'corefs',"coords","edges"]: #'atoms'
-#                 bbox.pop(key, None)  # 安全地移除键
+#                 bbox.pop(key, None)  
 
 #     data = coref_results[0]
 #     parsed = parse_coref_data_with_fallback(data)
@@ -157,13 +153,10 @@ def get_cached_multi_molecular(image_path: str):
     # return parsed
 
 def get_multi_molecular_text_to_correct(image_path: str) -> list:
-    """
-    GPT-4o 注册的 tool。内部不再直接调用二级 Agent，
-    而是复用缓存过的结果。
-    """
+
     coref_results = copy.deepcopy(get_cached_multi_molecular(image_path))
 
-    # 按需删掉不想返回给 LLM 的字段
+
     for item in coref_results:
         for bbox in item.get("bboxes", []):
             for key in [
@@ -173,7 +166,7 @@ def get_multi_molecular_text_to_correct(image_path: str) -> list:
             ]:
                 bbox.pop(key, None)
 
-    # 假设 parse_coref_data_with_fallback 需要传入单个 dict
+
     parsed = parse_coref_data_with_fallback(coref_results[0])
     ##print(f"[get_multi_molecular_text_to_correct] parsed: {json.dumps(parsed)}")
     return parsed
@@ -184,16 +177,16 @@ def get_multi_molecular_text_to_correct(image_path: str) -> list:
 
 def get_multi_molecular_full(image_path: str) -> list:
     '''Returns a list of reactions extracted from the image.'''
-    # 打开图像文件
+
     image = Image.open(image_path).convert('RGB')
     
-    # 将图像作为输入传递给模型
+
     #coref_results = process_reaction_image_with_multiple_products_and_text_correctR(image_path)
     coref_results = model.extract_molecule_corefs_from_figures([image])
     for item in coref_results:
         for bbox in item.get("bboxes", []):
             for key in ["category", "molfile", "symbols", 'atoms', "bonds", 'category_id', 'score', 'corefs',"coords","edges"]: #'atoms'
-                bbox.pop(key, None)  # 安全地移除键
+                bbox.pop(key, None)  
 
     data = coref_results[0]
     parsed = parse_coref_data_with_fallback(data)
@@ -207,10 +200,7 @@ def get_multi_molecular_full(image_path: str) -> list:
 _raw_results_cache = {}
 
 def get_cached_raw_results(image_path: str):
-    """
-    调用一次 get_reaction_withatoms_correctR 并缓存结果，
-    后续复用同一份 raw_results。
-    """
+
     if image_path not in _raw_results_cache:
         #print(f"[get_cached_raw_results] Processing image: {image_path}")
         _raw_results_cache[image_path] = get_reaction_withatoms_correctR(image_path)
@@ -218,9 +208,7 @@ def get_cached_raw_results(image_path: str):
     return _raw_results_cache[image_path]
 
 
-# ----------------------------------------
-# 工具函数：基于 raw_pred 构造精简输出
-# ----------------------------------------
+
 def get_reaction_from_raw(raw_pred: dict) -> dict:
     """
     Returns a structured dictionary of reactions extracted from the raw prediction,
@@ -243,9 +231,9 @@ def get_reaction_from_raw(raw_pred: dict) -> dict:
                     })
     return structured
 
-# ----------------------------------------
-# LLM 工具：get_reaction
-# ----------------------------------------
+
+
+
 def get_reaction(image_path: str) -> dict:
     """    
     Returns a structured dictionary of reactions extracted from the image,
@@ -286,7 +274,7 @@ def get_full_reaction(image_path: str) -> dict:
                         [round(val, 3) for val in point]
                         for point in coords
                     ]
-                # 2) 删除不需要的字段
+               
                 for key in ("molfile", "atoms", "bonds"):
                     entry.pop(key, None)
 
@@ -296,14 +284,14 @@ def get_full_reaction(image_path: str) -> dict:
     for item in coref_results:
         for bbox in item.get("bboxes", []):
             for key in ["category", "molfile", "symbols", 'atoms', "bonds", 'category_id', 'score', 'corefs',"coords","edges"]: #'atoms'
-                bbox.pop(key, None)  # 安全地移除键
+                bbox.pop(key, None)  
 
     data = coref_results[0]
     parsed = parse_coref_data_with_fallback(data)
 
     combined_result = {
-        "reaction_prediction": raw_prediction,  # 是个list
-        "molecule_coref": parsed               # 结构化分子识别结果
+        "reaction_prediction": raw_prediction,  
+        "molecule_coref": parsed               
     }
     print(f"combined_result:{combined_result}")
     return combined_result
@@ -318,14 +306,14 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
         azure_endpoint=AZURE_ENDPOINT
     )
 
-    # 加载图像并编码为 Base64
+
     def encode_image(image_path: str):
         with open(image_path, "rb") as image_file:
             return base64.b64encode(image_file.read()).decode('utf-8')
 
     base64_image = encode_image(image_path)
 
-    # GPT 工具调用配置
+
     tools = [
         {
             'type': 'function',
@@ -365,7 +353,7 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
             },
     ]
 
-    # 提供给 GPT 的消息内容
+
     with open('./prompt/prompt.txt', 'r') as prompt_file:
         prompt = prompt_file.read()
     messages = [
@@ -379,7 +367,7 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
         }
     ]
 
-    # 调用 GPT 接口
+
     response = client.chat.completions.create(
     model = 'gpt-4o',
     temperature = 0,
@@ -403,17 +391,17 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
     ],
     tools = tools)
     
-# Step 1: 工具映射表
+
     TOOL_MAP = {
         'get_multi_molecular_text_to_correct': get_multi_molecular_text_to_correct,
         'get_reaction': get_reaction
     }
 
-    # Step 2: 处理多个工具调用
+
     tool_calls = response.choices[0].message.tool_calls
     results = []
 
-    # 遍历每个工具调用
+
     for tool_call in tool_calls:
         tool_name = tool_call.function.name
         tool_arguments = tool_call.function.arguments
@@ -427,7 +415,7 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
         else:
             raise ValueError(f"Unknown tool called: {tool_name}")
         
-        # 保存每个工具调用结果
+
         results.append({
             'role': 'tool',
             'content': json.dumps({
@@ -474,7 +462,7 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
 
 
     
-    # 获取 GPT 生成的结果
+
     gpt_output = json.loads(response.choices[0].message.content)
     print("R_group_agent_output:", gpt_output)
     image = Image.open(image_path).convert('RGB')
@@ -500,7 +488,7 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
     #print(reaction_results)
     
 
-    # 定义更新工具输出的函数
+
     def extract_smiles_details(smiles_data, raw_details):
         smiles_details = {}
         for smiles in smiles_data:
@@ -519,7 +507,7 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
                         break
         return smiles_details
 
-# 获取结果
+
     smiles_details = extract_smiles_details(gpt_output, coref_results)
     #print('smiles_details:', smiles_details)
 
@@ -536,11 +524,11 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
         ##print(product['smiles'])
         ##print(product)
         products.append(product['smiles'])
-    # 输出结果
+
     #import p#print
     #p#print.p#print(smiles_details)
 
-        # 整理反应数据
+
     backed_out = utils.backout_without_coref(reaction_results, coref_results, gpt_output, smiles_details, model.molnextr)
     backed_out.sort(key=lambda x: x[2])
     extracted_rxns = {}
@@ -564,7 +552,7 @@ def process_reaction_image_with_product_variant_R_group(image_path: str) -> dict
         "original_molecule_list": parsed
     }
 
-# 按标签排序
+
     sorted_keys = sorted(toadd["reactions"].keys())
     toadd["reactions"] = {i: toadd["reactions"][i] for i in sorted_keys}
     print(f"str_R_group_agent_output:{toadd}")
@@ -580,7 +568,7 @@ def process_reaction_image_with_table_R_group(image_path: str) -> dict:
         azure_endpoint=AZURE_ENDPOINT
     )
 
-    # 加载图像并编码为 Base64
+
     def encode_image(image_path: str):
         with open(image_path, "rb") as image_file:
             return base64.b64encode(image_file.read()).decode('utf-8')
@@ -636,12 +624,12 @@ def process_reaction_image_with_table_R_group(image_path: str) -> dict:
 
     
     tool_call = response.choices[0].message.tool_calls[0]
-    tool_name = tool_call.function.name  # 修改此处
-    tool_arguments = tool_call.function.arguments  # 新增此处
+    tool_name = tool_call.function.name 
+    tool_arguments = tool_call.function.arguments  
     tool_call_id = tool_call.id
 
     tool_args = json.loads(tool_arguments)
-    #image_path = tool_args.get('image_path', image_path)  # 使用模型提供的 image_path
+    #image_path = tool_args.get('image_path', image_path)  
 
     if tool_name == 'get_full_reaction':
         tool_result = get_full_reaction(image_path)
@@ -650,7 +638,7 @@ def process_reaction_image_with_table_R_group(image_path: str) -> dict:
         raise ValueError(f"Unknown tool called: {tool_name}")
     #print(tool_result)
 
-    # 构建工具调用结果消息
+
     function_call_result_message = {
         'role': 'tool',
         'content': json.dumps({
@@ -697,32 +685,22 @@ def process_reaction_image_with_table_R_group(image_path: str) -> dict:
 
 
     def replace_symbols_and_generate_smiles(input1, input2):
-        """
-        通用函数，用于将输入2中的symbols替换到输入1中，并生成新的SMILES。
-        返回的结果保持特定格式，不包含初始的反应数据。
-        
-        参数:
-        input1: 包含reactants和products的初始输入数据
-        input2: 包含不同反应的symbols信息的数据
 
-        返回:
-        一个新的包含每个reaction的字典，包含reaction_id、reactants和products。
-        """
         
-        reactions_output = {"reactions": []}  # 存储最终的反应输出
+        reactions_output = {"reactions": []}  
         
-        # 遍历 input2 中的每个 reaction
+
         for reaction in input2['reactions']:
             reaction_id = reaction['reaction_id']
             
-            # 构建新的 reaction 字典
+
             new_reaction = {"reaction_id": reaction_id, "reactants": [], "conditions":[], "products": [], "additional_info": []}
 
             for j, reactant in enumerate(reaction['reactants']):
-                original_reactant = input1['reactants'][j]  # 对应的 reactant 模板
+                original_reactant = input1['reactants'][j] 
                 ##print(original_reactant)
-                new_symbols_reactant = reactant['symbols']  # 替换为reaction中的symbols
-                new_smiles_reactant, __, __ = _convert_graph_to_smiles(original_reactant['coords'], new_symbols_reactant, original_reactant['edges'])  # 生成新的SMILES
+                new_symbols_reactant = reactant['symbols'] 
+                new_smiles_reactant, __, __ = _convert_graph_to_smiles(original_reactant['coords'], new_symbols_reactant, original_reactant['edges']) 
                 
                 new_reactant = {
                     #"category": original_reactant['category'],
@@ -739,11 +717,11 @@ def process_reaction_image_with_table_R_group(image_path: str) -> dict:
                 new_reaction['conditions'] = reaction['conditions']
 
             
-            # 处理 products 中的每个分子
+
             for k, product in enumerate(reaction['products']):
-                original_product = input1['products'][k]  # 对应的 product 模板
-                new_symbols_product = product['symbols']  # 替换为reaction中的symbols
-                new_smiles_product, __, __ = _convert_graph_to_smiles(original_product['coords'], new_symbols_product, original_product['edges'])  # 生成新的SMILES
+                original_product = input1['products'][k] 
+                new_symbols_product = product['symbols'] 
+                new_smiles_product, __, __ = _convert_graph_to_smiles(original_product['coords'], new_symbols_product, original_product['edges']) 
                 
                 new_product = {
                     #"category": original_product['category'],
@@ -766,10 +744,10 @@ def process_reaction_image_with_table_R_group(image_path: str) -> dict:
 
     reaction_preds = tool_result['reaction_prediction']
     if isinstance(reaction_preds, str):
-        # 如果是字符串，就 parse
+
         tool_result_json = json.loads(reaction_preds)
     elif isinstance(reaction_preds, (dict, list)):
-        # 已经是 dict 或 list，直接使用
+
         tool_result_json = reaction_preds
     else:
         raise TypeError(f"Unexpected tool_result type: {type(reaction_preds)}")
