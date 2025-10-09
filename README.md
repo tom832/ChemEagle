@@ -101,7 +101,7 @@ Benchmark datasets, predictions, and ground truth can be found in our [Huggingfa
 
 ## 🤗 Chemical information extraction using [ChemEAGLE.Web](https://huggingface.co/spaces/CYF200127/ChemEagle) 
 
-Go to our [ChemEAGLE.Web app demo](https://huggingface.co/spaces/CYF200127/ChemEagle) to directly use our tool online!
+Go to our [ChemEAGLE.Web app demo](https://huggingface.co/spaces/CYF200127/ChemEagle) to directly use our tool online! (Only supports graphic input now)
 
 When the input is a multimodal chemical reaction graphic:
 ![visualization](examples/reaction9.png)
