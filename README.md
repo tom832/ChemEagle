@@ -74,6 +74,27 @@ image_path = './examples/1.png'
 results = ChemEagle(image_path)
 print(results)
 ```
+5. Alternatively, run the following code to extract graphics from a PDF using a PDF extraction tool and batch-process them with ChemEAGLE:
+```python
+import os
+from main import ChemEagle
+from pdf_extraction import run_pdf
+pdf_path   = 'your/pdf/path'
+output_dir = 'your/output/dir'
+run_pdf(pdf_dir=pdf_path, model_size='large', image_dir=output_dir)
+results = []
+for fname in sorted(os.listdir(output_dir)):
+    if not fname.lower().endswith('.png'):
+        continue
+    img_path = os.path.join(output_dir, fname)
+    try:
+        r = ChemEagle(img_path)
+        r['image_name'] = fname
+        results.append(r)
+    except Exception as e:
+        results.append({'image_name': fname, 'error': str(e)})
+print(results)
+```
 
 ### Benchmarking
 Benchmark datasets, predictions, and ground truth can be found in our [Huggingface Repo](https://huggingface.co/datasets/CYF200127/ChemEagle/blob/main/Dataset.zip).
