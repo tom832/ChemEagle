@@ -67,14 +67,14 @@ export AZURE_ENDPOINT=your-azure-endpoint
 export API_VERSION=your-api-version
 ```
 
-4. Run the following code to extract machine-readable chemical data from a chemical graphics:
+4. Run the following code to extract machine-readable chemical data from chemical graphics:
 ```python
 from main import ChemEagle
 image_path = './examples/1.png'
 results = ChemEagle(image_path)
 print(results)
 ```
-5. Alternatively, run the following code to extract graphics from a PDF using a PDF extraction tool and batch-process them with ChemEAGLE:
+5. Alternatively, run the following code to extract machine-readable chemical data from PDFs directly:
 ```python
 import os
 from main import ChemEagle
