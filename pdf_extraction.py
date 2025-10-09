@@ -2,7 +2,7 @@ import os
 import json
 import argparse
 from huggingface_hub import hf_hub_download
-from visualheist.methods import batch_pdf_to_figures_and_tables,_pdf_to_figures_and_tables
+from pdfmodel.methods import batch_pdf_to_figures_and_tables,_pdf_to_figures_and_tables
 
 
 def load_config(config_file):
