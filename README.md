@@ -74,7 +74,7 @@ image_path = './examples/1.png'
 results = ChemEagle(image_path)
 print(results)
 ```
-5. Alternatively, run the following code to extract machine-readable chemical data from PDFs directly:
+5. Alternatively, run the following code to extract machine-readable chemical data from chemical literature (PDF files) directly:
 ```python
 import os
 from main import ChemEagle
