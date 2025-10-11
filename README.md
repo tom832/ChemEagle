@@ -81,7 +81,7 @@ from main import ChemEagle
 from pdf_extraction import run_pdf
 pdf_path   = 'your/pdf/path'
 output_dir = 'your/output/dir'
-run_pdf(pdf_dir=pdf_path, model_size='large', image_dir=output_dir)
+run_pdf(pdf_dir=pdf_path, image_dir=output_dir)
 results = []
 for fname in sorted(os.listdir(output_dir)):
     if not fname.lower().endswith('.png'):
