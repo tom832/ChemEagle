@@ -60,31 +60,6 @@ def _tf_id_detection(image, model, processor):
     return annotation["<OD>"]
 
 
-# def _save_image_from_bbox(image, annotation, image_counter, output_dir, pdf_name):
-    
-#     """Saves cropped regions denoted from annotation in image to output_dir
-
-#     :param image: Image instance that refers to image we would like to crop
-#     :type image: Image
-#     :param annotation: Dictionary that contains information on bounding boxes which correlate to points in image
-#     :type annotation: dict
-#     :param image_counter: Counter to how many images have been saved so far, used for file naming purposes
-#     :type image_counter: int
-#     :param output_dir: Directory to store the segmented images
-#     :type output_dir: str
-#     :param pdf_name: Name of the pdf in which image comes from, used for file naming purposes
-#     :type pdf_name: str
-
-#     :return: The new image_counter after saving all cropped images
-#     :rtype: int
-#     """
-    
-#     for counter, bbox in enumerate(annotation['bboxes']):
-#         x1, y1, x2, y2 = bbox
-#         cropped_image = image.crop((x1, y1, x2, y2))
-#         cropped_image.save(os.path.join(output_dir, f"{pdf_name}_image_{image_counter + counter + 1}.png"))
-#     return len(annotation["bboxes"]) + image_counter
-
 def _save_image_from_bbox(image, annotation, image_counter, output_dir, pdf_name, page_number):
     """
     Saves cropped regions denoted from annotation in image to output_dir,
