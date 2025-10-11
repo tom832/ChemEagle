@@ -1,6 +1,10 @@
 # ChemEAGLE
 This is the official code of the paper "A Multi-Agent System Enables Versatile Information Extraction from the Chemical Literature"
 
+![visualization](examples/chemagle_overview _v7.png)
+<div align="center",width="100">
+</div> 
+
 ## :sparkles: Highlights
 <p align="justify">
 In this work, we present ChemEAGLE, a multimodal large language model (MLLM)-based multi-agent system that integrates diverse chemical information extraction tools to extract multimodal chemical reactions. By integrating ten expert-designed tools and seven chemical information extraction agents, ChemEAGLE not only processes individual modalities but also utilizes MLLMs' reasoning capabilities to unify extracted data, ensuring more accurate and comprehensive reaction representations. By bridging multimodal gaps, our approach significantly improves automated chemical knowledge extraction, facilitating more robust AI-driven chemical research.
