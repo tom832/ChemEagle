@@ -17,7 +17,7 @@ def load_config(config_file):
     return config
 
 
-def run_pdf(config_file=None, pdf_dir=None, image_dir=None, model_size=None):
+def run_pdf(config_file=None, pdf_dir=None, image_dir=None, model_size= "large"):
     """Main function to run VisualHeist processing"""
     if config_file:
         config = load_config(config_file)
