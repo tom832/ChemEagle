@@ -5,7 +5,7 @@
 <div align="center",width="100">
 </div> 
 
-This is the official code of the paper "A Multi-Agent System Enables Versatile Information Extraction from the Chemical Literature".
+This is the official code of the [paper](https://arxiv.org/abs/2507.20230) "A Multi-Agent System Enables Versatile Information Extraction from the Chemical Literature".
 
 ## :sparkles: Highlights
 <p align="justify">
