@@ -19,9 +19,12 @@ from get_R_group_sub_agent import process_reaction_image_with_table_R_group, pro
 from get_observer import action_observer_agent, plan_observer_agent
 from get_text_agent import text_extraction_agent
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 model = ChemIEToolkit(device=torch.device('cpu')) 
-ckpt_path = "./rxn.ckpt"
+ckpt_path = os.getenv("RXN_CKPT_PATH", "./rxn.ckpt")
 model1 = RxnIM(ckpt_path, device=torch.device('cpu'))
 device = torch.device('cpu')
 
